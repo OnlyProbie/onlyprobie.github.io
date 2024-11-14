@@ -28,14 +28,14 @@ async function buildBlogRSS() {
   const options = {
     title: '韩海Tempest',
     description: '韩海Tempest\' Blog',
-    id: 'https://antfu.me/',
-    link: 'https://antfu.me/',
-    copyright: 'CC BY-NC-SA 4.0 2021 © Tempest',
-    feedLinks: {
-      json: 'https://antfu.me/feed.json',
-      atom: 'https://antfu.me/feed.atom',
-      rss: 'https://antfu.me/feed.xml',
-    },
+    id: 'https://onlyprobie.github.io/',
+    link: 'https://onlyprobie.github.io/',
+    copyright: 'CC BY-NC-SA 4.0 2021 © 韩海Tempest',
+    // feedLinks: {
+    //   json: 'https://antfu.me/feed.json',
+    //   atom: 'https://antfu.me/feed.atom',
+    //   rss: 'https://antfu.me/feed.xml',
+    // },
   }
   const posts: any[] = (
     await Promise.all(
@@ -71,8 +71,6 @@ async function buildBlogRSS() {
 
 async function writeFeed(name: string, options: FeedOptions, items: Item[]) {
   options.author = AUTHOR
-  options.image = 'https://antfu.me/avatar.png'
-  options.favicon = 'https://antfu.me/logo.png'
 
   const feed = new Feed(options)
 
