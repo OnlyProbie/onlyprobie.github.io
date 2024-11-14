@@ -79,11 +79,11 @@ span::before {
 ```
 
 ```js
-focus(e){
+focus(e) {
   clearTimeout(this.blurTimer);
   e.target.focus();
 }
-blur(){
+blur() {
   this.blurTimer=setTimeout(()=>{
     window.scrollTo(0,0);
   },300);
