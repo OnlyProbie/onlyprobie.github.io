@@ -1,9 +1,8 @@
 ---
-title: Webpack compiler hook
+title: Webpack 编译流程中涉及到的钩子模拟实现
 date: 2024-11-14T14:47:01
 lang: zh-CN
-duration: 10min
-description: Webpack 编译流程中涉及到的钩子实现
+duration: 12min
 ---
 
 [[toc]]

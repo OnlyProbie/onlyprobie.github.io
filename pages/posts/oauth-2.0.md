@@ -1,9 +1,8 @@
 ---
-title: Oauth 2.0
+title: OAuth 2.0 协议介绍
 date: 2024-11-14T14:45:48
 lang: zh-CN
 duration: 20min
-description: OAuth 2.0 协议介绍
 ---
 
 [[toc]]
