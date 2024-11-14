@@ -1,9 +1,8 @@
 ---
-title: Blog - Anthony Fu
-display: ''
+title: 韩海Tempest
+description: 韩海Tempest's Portfolio
+image: https://antfu.me/og.png
 art: plum
 ---
-
-<SubNav />
 
 <ListPosts only-date type="blog" />
