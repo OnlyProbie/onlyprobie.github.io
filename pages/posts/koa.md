@@ -1,5 +1,5 @@
 ---
-title: Koa
+title: Koa概述
 date: 2024-11-14T16:33:32
 lang: zh-CN
 duration: 10min
@@ -27,11 +27,11 @@ Koa是一个新的web框架，有express幕后的原班人马打造，为搭建w
 
 express主要操作对象由app、req、res，他们的逻辑关系如下：
 
-<image src ='http://cdn.qiniu.archerk.com.cn/express.png' />
+![alt text](./image-2.png)
 
 而在koa中，他的主要操作对象有app、context、request、response，他们的逻辑关系如下：
 
-<image src ='http://cdn.qiniu.archerk.com.cn/koa.png' />
+![alt text](./image-3.png)
 
 ### 更友好的中间件支持
 
