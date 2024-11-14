@@ -51,7 +51,7 @@ OAuth是一个关于授权的开放网络标准协议，简单理解就是一种
 
 [三方登录授权](https://juejin.cn/)
 
-![流程图](/assets/img/OAuth2.0.png)
+<!-- ![流程图](/assets/img/OAuth2.0.png) -->
 
 **抽象协议流程**
 
