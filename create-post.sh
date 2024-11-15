@@ -27,7 +27,7 @@ cat > "$post_path" << EOF
 title: ${title}
 date: ${date}
 lang: zh-CN
-duration: 10min
+duration: 15min
 description: This is a new post.
 ---
 
