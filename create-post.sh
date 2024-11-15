@@ -28,7 +28,6 @@ title: ${title}
 date: ${date}
 lang: zh-CN
 duration: 15min
-description: This is a new post.
 ---
 
 [[toc]]

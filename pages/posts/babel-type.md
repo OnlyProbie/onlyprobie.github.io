@@ -3,12 +3,13 @@ title: Babel Type
 date: 2024-11-14T16:43:27
 lang: zh-CN
 duration: 10min
-description: Babel 是一个广泛使用的 JavaScript 编译器和工具链，主要用于将现代 JavaScript（包括 ECMAScript 新标准、TypeScript、JSX 等）代码转换为向后兼容的 JavaScript 代码，以支持旧版本的浏览器或运行环境。Babel 的核心是其插件系统和工具库，这些工具库提供了各种功能来处理代码的编译、转换和分析。
 ---
 
 [[toc]]
 
 ## Babel 的核心工具库
+
+Babel 是一个广泛使用的 JavaScript 编译器和工具链，主要用于将现代 JavaScript（包括 ECMAScript 新标准、TypeScript、JSX 等）代码转换为向后兼容的 JavaScript 代码，以支持旧版本的浏览器或运行环境。Babel 的核心是其插件系统和工具库，这些工具库提供了各种功能来处理代码的编译、转换和分析。
 
 ### @babel/core
 

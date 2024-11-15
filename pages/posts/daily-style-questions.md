@@ -1,9 +1,8 @@
 ---
-title: Daily Style Questions
+title: 日常样式问题记录
 date: 2024-11-14T14:49:49
 lang: zh-CN
 duration: 10min
-description: 日常样式问题记录
 ---
 
 [[toc]]

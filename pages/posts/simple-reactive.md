@@ -1,9 +1,8 @@
 ---
-title: Simple Reactive
+title: 简易响应式数据实现
 date: 2023-03-27T16:00:00
 lang: en
 duration: 12min
-description: 简易响应式数据实现
 ---
 
 [[toc]]

@@ -1,9 +1,8 @@
 ---
-title: Babel Handbook
+title: Babel 插件手册
 date: 2024-11-14T16:39:42
 lang: zh-CN
 duration: 10min
-description: Babel 插件手册
 ---
 
 [[toc]]
