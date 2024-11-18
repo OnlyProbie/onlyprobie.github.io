@@ -21,7 +21,7 @@ declare module 'vue-router/auto-routes' {
     '/': RouteRecordInfo<'/', '/', Record<never, never>, Record<never, never>>,
     '/[...404]': RouteRecordInfo<'/[...404]', '/:404(.*)', { 404: ParamValue<true> }, { 404: ParamValue<false> }>,
     '/posts/': RouteRecordInfo<'/posts/', '/posts', Record<never, never>, Record<never, never>>,
-    '/posts/解构...是使用对象还是数组': RouteRecordInfo<'/posts/解构...是使用对象还是数组', '/posts/解构///是使用对象还是数组', Record<never, never>, Record<never, never>>,
+    '/posts/解构是使用对象还是数组': RouteRecordInfo<'/posts/解构是使用对象还是数组', '/posts/解构是使用对象还是数组', Record<never, never>, Record<never, never>>,
     '/posts/babel-handbook': RouteRecordInfo<'/posts/babel-handbook', '/posts/babel-handbook', Record<never, never>, Record<never, never>>,
     '/posts/babel-type': RouteRecordInfo<'/posts/babel-type', '/posts/babel-type', Record<never, never>, Record<never, never>>,
     '/posts/daily-style-questions': RouteRecordInfo<'/posts/daily-style-questions', '/posts/daily-style-questions', Record<never, never>, Record<never, never>>,
@@ -38,6 +38,5 @@ declare module 'vue-router/auto-routes' {
     '/posts/structure': RouteRecordInfo<'/posts/structure', '/posts/structure', Record<never, never>, Record<never, never>>,
     '/posts/Vue3.4中.vue文件编译流程图': RouteRecordInfo<'/posts/Vue3.4中.vue文件编译流程图', '/posts/Vue3/4中/vue文件编译流程图', Record<never, never>, Record<never, never>>,
     '/posts/webpack-compiler-hook': RouteRecordInfo<'/posts/webpack-compiler-hook', '/posts/webpack-compiler-hook', Record<never, never>, Record<never, never>>,
-    '/react/': RouteRecordInfo<'/react/', '/react', Record<never, never>, Record<never, never>>,
   }
 }
