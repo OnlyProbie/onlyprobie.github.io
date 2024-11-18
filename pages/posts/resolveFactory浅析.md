@@ -2,6 +2,7 @@
 title: ResolveFactory浅析
 date: 2024-11-14T18:21:13
 lang: zh-CN
+type: blog
 duration: 10min
 description: ResolveFactory 解析器钩子函数
 ---

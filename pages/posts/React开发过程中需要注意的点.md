@@ -2,6 +2,7 @@
 title: React开发过程中需要注意的点
 date: 2024-11-14T16:23:10
 lang: zh-CN
+type: blog
 duration: 10min
 ---
 

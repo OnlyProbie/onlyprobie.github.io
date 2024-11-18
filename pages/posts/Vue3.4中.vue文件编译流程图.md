@@ -2,6 +2,7 @@
 title: Vue3.4中.vue文件编译流程图
 date: 2024-11-14T17:01:36
 lang: zh-CN
+type: blog
 duration: 10min
 ---
 

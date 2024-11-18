@@ -2,6 +2,7 @@
 title: OAuth 2.0 协议介绍
 date: 2024-11-14T14:45:48
 lang: zh-CN
+type: blog
 duration: 20min
 ---
 

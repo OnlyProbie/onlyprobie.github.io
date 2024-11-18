@@ -2,6 +2,7 @@
 title: Babel Type
 date: 2024-11-14T16:43:27
 lang: zh-CN
+type: blog
 duration: 10min
 ---
 

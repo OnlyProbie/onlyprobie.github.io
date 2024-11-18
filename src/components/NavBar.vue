@@ -32,10 +32,22 @@ const { y: scroll } = useWindowScroll()
     <nav class="nav">
       <div class="spacer" />
       <div class="right" print:op0>
-        <!-- <RouterLink to="/posts" title="Blog">
+        <RouterLink to="/posts" title="Blog">
           <span class="lt-md:hidden">Blog</span>
           <div i-ri-article-line md:hidden />
-        </RouterLink> -->
+        </RouterLink>
+        <RouterLink to="/daily" title="Daily">
+          <span class="lt-md:hidden">Daily</span>
+          <div i-ri-article-line md:hidden />
+        </RouterLink>
+        <RouterLink to="/thinking" title="Thinking">
+          <span class="lt-md:hidden">Thinking</span>
+          <div i-ri-article-line md:hidden />
+        </RouterLink>
+        <RouterLink to="/design" title="Design">
+          <span class="lt-md:hidden">Design</span>
+          <div i-ri-article-line md:hidden />
+        </RouterLink>
         <a href="https://github.com/OnlyProbie" target="_blank" title="GitHub" class="lt-md:hidden">
           <div i-uil-github-alt />
         </a>

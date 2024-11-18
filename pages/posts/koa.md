@@ -2,6 +2,7 @@
 title: Koa概述
 date: 2024-11-14T16:33:32
 lang: zh-CN
+type: blog
 duration: 10min
 ---
 

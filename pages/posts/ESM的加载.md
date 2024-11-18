@@ -2,6 +2,7 @@
 title: ESM的加载
 date: 2024-11-14T16:53:24
 lang: zh-CN
+type: blog
 duration: 10min
 description: ESM的加载过程
 ---

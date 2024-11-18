@@ -2,6 +2,7 @@
 title: javaScript 实现数据结构
 date: 2024-11-14T14:50:23
 lang: zh-CN
+type: blog
 duration: 50min
 ---
 

@@ -2,6 +2,7 @@
 title: 日常样式问题记录
 date: 2024-11-14T14:49:49
 lang: zh-CN
+type: daily
 duration: 10min
 ---
 
