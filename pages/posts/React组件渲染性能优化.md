@@ -16,7 +16,7 @@ duration: 40min
 
 ## *shouldComponentUpdate* 与 *PureComnent*
 
-*shouldComponentUpdate* 与 *PureComnent* 都与类组件相关，所以下面会以类组件来示例。
+**shouldComponentUpdate** 与 **PureComnent** 都与类组件相关，所以下面会以类组件来示例。
 
 ```js
 import React, { Component } from 'react'
@@ -187,7 +187,7 @@ addStuHandle = () => {
 
 ## *React.memo*
 
-*shouldComponentUpdate* 与 *PureComnent* 主要是优化类组件的渲染性能，那么如果是函数组件该怎么办呢？
+**shouldComponentUpdate** 与 **PureComnent** 主要是优化类组件的渲染性能，那么如果是函数组件该怎么办呢？
 
 在 *React* 中，为我们提供了 *React.memo*。
 

@@ -35,6 +35,7 @@ declare module 'vue-router/auto-routes' {
     '/posts/oauth-2.0': RouteRecordInfo<'/posts/oauth-2.0', '/posts/oauth-2/0', Record<never, never>, Record<never, never>>,
     '/posts/pnpm原理': RouteRecordInfo<'/posts/pnpm原理', '/posts/pnpm原理', Record<never, never>, Record<never, never>>,
     '/posts/React开发过程中需要注意的点': RouteRecordInfo<'/posts/React开发过程中需要注意的点', '/posts/React开发过程中需要注意的点', Record<never, never>, Record<never, never>>,
+    '/posts/React组件渲染性能优化': RouteRecordInfo<'/posts/React组件渲染性能优化', '/posts/React组件渲染性能优化', Record<never, never>, Record<never, never>>,
     '/posts/resolveFactory浅析': RouteRecordInfo<'/posts/resolveFactory浅析', '/posts/resolveFactory浅析', Record<never, never>, Record<never, never>>,
     '/posts/simple-reactive': RouteRecordInfo<'/posts/simple-reactive', '/posts/simple-reactive', Record<never, never>, Record<never, never>>,
     '/posts/structure': RouteRecordInfo<'/posts/structure', '/posts/structure', Record<never, never>, Record<never, never>>,
