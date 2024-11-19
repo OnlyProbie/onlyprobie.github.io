@@ -233,7 +233,7 @@ html:not(.dark) [img-dark] {
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: rainbow 10s linear infinite;
+  animation: rainbow 20s linear infinite;
 }
 
 @keyframes rainbow {
