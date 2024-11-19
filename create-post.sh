@@ -27,6 +27,7 @@ cat > "$post_path" << EOF
 title: ${title}
 date: ${date}
 lang: zh-CN
+type: blog
 duration: 15min
 ---
 
