@@ -3,12 +3,12 @@ title: React组件渲染性能优化
 date: 2024-11-19T08:48:55
 lang: zh-CN
 type: blog
-duration: 15min
+duration: 40min
 ---
 
 [[toc]]
 
-# React 组件渲染性能优化
+> 来源：转自渡一React课程笔记
 
 在该文章里，我们将会探讨组件在渲染时，如何优化渲染性能问题。
 
@@ -104,7 +104,7 @@ export default class App extends Component {
 
 此方法仅作为性能优化的方式而存在，不要企图依靠此方法来“阻止”渲染。另外，现在 *React* 官方已经提供了 *PureComponent*，因此一般情况下我们是不需要手写 *shouldComponentUpdate* 的。
 
-*PureComponent* 文档：*https://zh-hans.reactjs.org/docs/react-api.html#reactpurecomponent*
+*PureComponent* 文档：*https://zh-hans.react.dev/reference/react/PureComponent*
 
 >**<u>*React.PureComponent* 与 *React.Component* 很相似。两者的区别在于 *React.Component* 并未实现 *shouldComponentUpdate( )*，而 *React.PureComponent* 中以浅层对比 *prop* 和 *state* 的方式来实现了该函数。</u>**
 
@@ -619,7 +619,7 @@ const memoizedValue = useMemo(() => computeExpensiveValue(a, b), [a, b]);
 
 主要用于返回一个 *memoized* 值。
 
-文档地址：*https://zh-hans.reactjs.org/docs/hooks-reference.html#usememo*
+文档地址：*https://zh-hans.react.dev/reference/react/useMemo*
 
 某些时候，组件中某些值需要根据状态进行一个二次计算（类似于 *Vue* 中的计算属性），由于函数组件一旦重新渲染，就会重新执行整个函数，这就导致之前的二次计算也会重新执行一次，例如：
 
