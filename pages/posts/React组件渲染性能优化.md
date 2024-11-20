@@ -48,7 +48,7 @@ export default class App extends Component {
 
 此时，我们就可以使用 *shouldComponentUpdate* 来进行优化。
 
-文档地址：*https://zh-hans.reactjs.org/docs/react-component.html#shouldcomponentupdate*
+文档地址：*https://zh-hans.legacy.reactjs.org/docs/react-component.html#shouldcomponentupdate*
 
 当 *props* 或 *state* 发生变化时，*shouldComponentUpdate* 会在渲染执行之前被调用。返回值默认为 *true*。首次渲染或使用 *forceUpdate* 方法时不会调用该方法。
 
@@ -68,10 +68,10 @@ export default class App extends Component {
   }
 
   /**
-   * 
+   *
    * @param {*} nextProps 新的 props
    * @param {*} nextState 新的 state
-   * @returns 
+   * @returns
    */
   shouldComponentUpdate(nextProps, nextState) {
     // shouldComponentUpdate会根据返回值来决定是否重新渲染
@@ -580,7 +580,7 @@ function App() {
   console.log("App组件渲染了")
 
   // 每次重新渲染的时候，就会生成一个全新的 test 函数
-  // 使用了 useCallback 之后，我们针对 test 函数做了一个缓存  
+  // 使用了 useCallback 之后，我们针对 test 函数做了一个缓存
   const newTest = useCallback(function test(){
     console.log("test触发了")
   },[])
@@ -611,7 +611,7 @@ export default App;
 
 ## *useMemo*
 
-最后要介绍的是 *useMemo*，其语法如下：
+最后要介绍的是 **useMemo**，其语法如下：
 
 ```js
 const memoizedValue = useMemo(() => computeExpensiveValue(a, b), [a, b]);
