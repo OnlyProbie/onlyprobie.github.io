@@ -2,7 +2,7 @@
 title: Webpack 编译流程中涉及到的钩子模拟实现
 date: 2022-11-14T14:47:01
 lang: zh-CN
-type: blog
+type: daily
 duration: 12min
 ---
 

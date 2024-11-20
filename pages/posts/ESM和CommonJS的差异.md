@@ -2,7 +2,7 @@
 title: ESM和CommonJS的差异
 date: 2022-11-14T16:55:56
 lang: zh-CN
-type: blog
+type: daily
 duration: 3min
 description: ES6模块和CommonJS 的差异
 ---
