@@ -2,7 +2,7 @@
 title: Node模块的查找
 date: 2021-11-14T14:48:14
 lang: zh-CN
-type: blog
+type: daily
 duration: 10min
 ---
 
