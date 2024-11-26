@@ -1,7 +1,7 @@
 import { createRenderer, Text } from './renderer.js'
 // import { ref, effect } from './responsive/reactive.js'
 
-// const { effect, ref } = Vue;
+// const { effect, ref } = Vue
 
 // 针对只读属性的处理，只能通过setAttribute来设置
 // eslint-disable-next-line unused-imports/no-unused-vars
@@ -28,7 +28,7 @@ const { render } = createRenderer({
     return document.createComment(commonText)
   },
   insert(el, container, anchor = null) {
-    // container.appendChild(el);
+    // container.appendChild(el)
     container.insertBefore(el, anchor)
   },
   patchProps(el, key, oldValue, newValue) {
@@ -111,6 +111,11 @@ const n2 = {
       type: 'p',
       children: '我是原来的2',
       key: 2,
+    },
+    {
+      type: 'div',
+      children: '我是原来的1',
+      key: 4,
     },
     {
       type: 'p',

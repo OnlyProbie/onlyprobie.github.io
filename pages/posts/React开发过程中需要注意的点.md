@@ -31,6 +31,40 @@ https://goshacmd.com/controlled-vs-uncontrolled-inputs-react/
 
 https://www.imaginarycloud.com/blog/functional-programming-vs-oop
 
+5、使用 `create-react-app` 创建的部署到非根目录
+
+部署到非根目录需要配置 `publicPath` 和 `base`。
+> `publicPath`: 用于指定打包后的静态资源在服务器上的路径。
+> `base`: 用于指定应用程序的根路径，以确保路由可以正确匹配到对应页面。
+
+**修改 `publicPath` 的值**
+
+在 `package.json` 中配置 `homepage` 属性，该属性的值就是 `publicPath` 的值
+
+```json
+{
+  ...
+  "homepage": "/codeStation/",
+  ...
+}
+```
+
+**修改 `base` 的值**
+
+如果你使用的路由是 `BrowserRouter`，那么需要在路由组件的根节点添加属性 `basename=你指定的应用程序的根路径`
+
+```jsx
+const root = ReactDOM.createRoot(document.getElementById('root'));
+
+root.render(
+  <Provider store={store}>
+    <BrowserRouter basename='/codeStation'>
+      <App />
+    </BrowserRouter>
+  </Provider>
+);
+```
+
 ## 问题：
 
 1、constructor为啥会执行两次 ？

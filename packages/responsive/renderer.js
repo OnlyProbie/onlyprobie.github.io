@@ -72,9 +72,7 @@ export function createRenderer(options) {
     }
     else if (Array.isArray(newVnode.children)) {
       if (Array.isArray(oldVnode.children)) {
-        // 简单diff算法实现
         // 这里需要diff算法进行比较，然后卸载或者挂载
-
         patchKeyChildren(oldVnode, newVnode, container)
       }
       else {
@@ -151,19 +149,19 @@ export function createRenderer(options) {
           patch(oldChildren[idxInOld], newStartNode, container)
           insert(oldChildren[idxInOld].el, container, oldStartNode.el)
           oldChildren[idxInOld] = undefined
-          newStartNode = newChildren[++newStartIndex]
         }
         else {
           // 如果找不到，说明是新增节点
           patch(null, newStartNode, container, oldStartNode.el)
         }
+        newStartNode = newChildren[++newStartIndex]
       }
     }
     // 新增元素
     // 如果 oldEndIndex < oldStartIndex, 并且 newEndIndex >= newStartIndex, 说明存在没有匹配的新节点，需要挂载
     if (oldEndIndex < oldStartIndex && newEndIndex >= newStartIndex) {
       for (let i = newStartIndex; i <= newEndIndex; i++) {
-        patch(null, newChildren[i], container, oldStartNode.el)
+        patch(null, newChildren[i], container, null)
       }
     }
     else if (newEndIndex < oldEndIndex) {
