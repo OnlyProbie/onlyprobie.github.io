@@ -299,6 +299,7 @@ function simplePatchKeyChildren(oldVnode, newVnode, container) {
 function doublePatchKeyChildren(oldVnode, newVnode, container) {
   const oldChildren = oldVnode.children
   const newChildren = newVnode.children
+  // 双端diff算法实现
   let oldStartIndex = 0
   let oldEndIndex = oldChildren.length - 1
   let newStartIndex = 0
@@ -353,19 +354,19 @@ function doublePatchKeyChildren(oldVnode, newVnode, container) {
         patch(oldChildren[idxInOld], newStartNode, container)
         insert(oldChildren[idxInOld].el, container, oldStartNode.el)
         oldChildren[idxInOld] = undefined
-        newStartNode = newChildren[++newStartIndex]
       }
       else {
         // 如果找不到，说明是新增节点
         patch(null, newStartNode, container, oldStartNode.el)
       }
+      newStartNode = newChildren[++newStartIndex]
     }
   }
   // 新增元素
   // 如果 oldEndIndex < oldStartIndex, 并且 newEndIndex >= newStartIndex, 说明存在没有匹配的新节点，需要挂载
   if (oldEndIndex < oldStartIndex && newEndIndex >= newStartIndex) {
     for (let i = newStartIndex; i <= newEndIndex; i++) {
-      patch(null, newChildren[i], container, oldStartNode.el)
+      patch(null, newChildren[i], container, null)
     }
   }
   else if (newEndIndex < oldEndIndex) {
