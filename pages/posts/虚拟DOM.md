@@ -12,7 +12,7 @@ duration: 30min
 
 >https://react.docschina.org/docs/faq-internals.html
 
-**Virtual DOM 是一种编程概念。**在这个概念里， UI 以一种理想化的，或者说“虚拟的”表现形式被保存于内存中。
+**Virtual DOM 是一种编程概念**。在这个概念里， UI 以一种理想化的，或者说“虚拟的”表现形式被保存于内存中。
 
 也就是说，只要我们有一种方式，能够将真实 DOM 的层次结构描述出来，那么这就是一个虚拟 DOM。
 

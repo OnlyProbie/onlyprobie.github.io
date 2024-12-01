@@ -44,8 +44,12 @@ const { y: scroll } = useWindowScroll()
           <span class="lt-md:hidden">Thinking</span>
           <div i-ri-article-line md:hidden />
         </RouterLink>
-        <RouterLink to="/design" title="Design">
+        <!-- <RouterLink to="/design" title="Design">
           <span class="lt-md:hidden">Design</span>
+          <div i-ri-article-line md:hidden />
+        </RouterLink> -->
+        <RouterLink to="/interest" title="Interest">
+          <span class="lt-md:hidden">Interest</span>
           <div i-ri-article-line md:hidden />
         </RouterLink>
         <a href="https://github.com/OnlyProbie" target="_blank" title="GitHub" class="lt-md:hidden">

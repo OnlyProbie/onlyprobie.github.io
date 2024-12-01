@@ -1,5 +1,5 @@
 ---
-title: 一些画画日常
+title: 一些兴趣
 art: plum
 ---
 

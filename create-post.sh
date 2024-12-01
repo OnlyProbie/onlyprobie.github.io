@@ -7,7 +7,7 @@ if [ $# -eq 0 ]; then
 fi
 
 # 定义数组
-arr=("blog" "daily" "design" "thinking")
+arr=("blog" "daily" "design" "thinking" "interest")
 
 type=$1
 
