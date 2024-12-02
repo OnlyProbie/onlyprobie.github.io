@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/no-new-array */
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 /* eslint-disable unused-imports/no-unused-vars */
@@ -91,85 +92,49 @@ export function createRenderer(options) {
       }
     }
   }
+  // diff算法
   function patchKeyChildren(oldVnode, newVnode, container) {
     const oldChildren = oldVnode.children
     const newChildren = newVnode.children
-    // 双端diff算法实现
-    let oldStartIndex = 0
+    let j = 0
     let oldEndIndex = oldChildren.length - 1
-    let newStartIndex = 0
     let newEndIndex = newChildren.length - 1
-    let oldStartNode = oldChildren[oldStartIndex]
-    let oldEndNode = oldChildren[oldEndIndex]
-    let newStartNode = newChildren[newStartIndex]
-    let newEndNode = newChildren[newEndIndex]
-    while (oldStartIndex <= oldEndIndex && newStartIndex <= newEndIndex) {
-      // 对头尾节点进行判断，如果不存在，则说明已经处理过了，跳过
-      if (!oldStartNode) {
-        oldStartNode = oldChildren[++oldStartIndex]
-      }
-      else if (!oldEndNode) {
-        oldEndNode = oldChildren[--oldEndIndex]
-      }
-      else if (oldStartNode.key === newStartNode.key) {
-        // 1 oldStartNode 和 newStartNode 的比较
-        patch(oldStartNode, newStartNode, container)
-        oldStartNode = oldChildren[++oldStartIndex]
-        newStartNode = newChildren[++newStartIndex]
-      }
-      else if (oldEndNode.key === newEndNode.key) {
-        // 2 oldEndNode 和 newEndNode 的比较
-        patch(oldEndNode, newEndNode, container)
-        oldEndNode = oldChildren[--oldEndIndex]
-        newEndNode = newChildren[--newEndIndex]
-      }
-      else if (oldStartNode.key === newEndNode.key) {
-        // 3 oldStartNode 和 newEndNode 的比较
-        patch(oldStartNode, newEndNode, container)
-        // 将oldStartNode移动到oldEndNode之后
-        insert(oldStartNode.el, container, oldEndNode.el.nextSibling)
-        // 更新对应的索引
-        oldStartNode = oldChildren[++oldStartIndex]
-        newEndNode = newChildren[--newEndIndex]
-      }
-      else if (oldEndNode.key === newStartNode.key) {
-        // 4 oldEndNode 和 newStartNode 的比较
-        patch(oldEndNode, newStartNode, container)
-        // 将oldEndNode移动到oldStartNode之前
-        insert(oldEndNode.el, container, oldStartNode.el)
-        // 更新对应的索引
-        oldEndNode = oldChildren[--oldEndIndex]
-        newStartNode = newChildren[++newStartIndex]
-      }
-      else {
-        // 如果以上四种情况都不符合，则我们直接查找新旧节点中是否存在相同的key
-        // 找到了就将该节点移动到oldStartNode之前
-        const idxInOld = oldChildren.findIndex(item => item.key === newStartNode.key)
-        if (idxInOld > 0) {
-          patch(oldChildren[idxInOld], newStartNode, container)
-          insert(oldChildren[idxInOld].el, container, oldStartNode.el)
-          oldChildren[idxInOld] = undefined
-        }
-        else {
-          // 如果找不到，说明是新增节点
-          patch(null, newStartNode, container, oldStartNode.el)
-        }
-        newStartNode = newChildren[++newStartIndex]
+    // 从头到尾遍历，如果相同就更新节点，如果不同进行后续的处理
+    while (oldChildren[j].key === newChildren[j].key) {
+      j++
+      patch(oldChildren[j], newChildren[j], container)
+      oldStartIndex++
+      newStartIndex++
+    }
+    // 从尾到头遍历，如果相同更新节点，如果不同进行后续的处理
+    while (oldChildren[oldEndIndex].key === newChildren[newEndIndex].key) {
+      patch(oldChildren[oldEndIndex], newChildren[newEndIndex], container)
+      oldEndIndex--
+      newEndIndex--
+    }
+    // 如果 j > oldEndIndex，j <= newEndIndex 说明新节点比旧节点多，需要挂载
+    if (j > oldEndIndex && j <= newEndIndex) {
+      // 获取锚点
+      const anchorIndex = newEndIndex + 1
+      // 获取锚点元素
+      const anchor = anchorIndex < newChildren.length - 1 ? newChildren[anchorIndex].el : null
+      // 挂载
+      while (j <= newEndIndex) {
+        patch(null, newChildren[j++], container, anchor)
       }
     }
-    // 新增元素
-    // 如果 oldEndIndex < oldStartIndex, 并且 newEndIndex >= newStartIndex, 说明存在没有匹配的新节点，需要挂载
-    if (oldEndIndex < oldStartIndex && newEndIndex >= newStartIndex) {
-      for (let i = newStartIndex; i <= newEndIndex; i++) {
-        patch(null, newChildren[i], container, null)
+    else if (oldEndIndex >= j && newEndIndex < j) {
+      // 如果 oldEndIndex >= j，j > newEndIndex 说明旧节点比新节点多，需要卸载
+      while (oldEndIndex >= j) {
+        unmount(oldChildren[j++])
       }
     }
-    else if (newEndIndex < oldEndIndex) {
-      // 删除元素
-      // 如果 newEndIndex < newStartIndex && oldEndIndex >= oldStartIndex, 说明存在没有匹配的旧节点，需要卸载
-      for (let i = oldStartIndex; i <= oldEndIndex; i++) {
-        unmount(oldChildren[i])
-      }
+    // 处理剩余的节点
+    else {
+      // 构造一个source数组，他的长度是新的一组节点在经过预处理之后剩余节点的数量
+      const len = newEndIndex + 1 - j
+      const source = new Array(len)
+      source.fill(-1)
     }
   }
   // 挂载
