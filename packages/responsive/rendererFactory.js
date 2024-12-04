@@ -1,10 +1,9 @@
+import getSequence from '../utils/getSequence.js'
+import { Common, Fragment, Text } from './elementType.js'
 /* eslint-disable unicorn/no-new-array */
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 /* eslint-disable unused-imports/no-unused-vars */
-export const Fragment = Symbol('Fragment')
-export const Text = Symbol('Text')
-export const Common = Symbol('Common')
 
 export function createRenderer(options) {
   const { createElement, setElementText, insert, patchProps, setText, createText, createComment } = options
@@ -103,8 +102,6 @@ export function createRenderer(options) {
     while (oldChildren[j].key === newChildren[j].key) {
       j++
       patch(oldChildren[j], newChildren[j], container)
-      oldStartIndex++
-      newStartIndex++
     }
     // 从尾到头遍历，如果相同更新节点，如果不同进行后续的处理
     while (oldChildren[oldEndIndex].key === newChildren[newEndIndex].key) {
@@ -131,10 +128,87 @@ export function createRenderer(options) {
     }
     // 处理剩余的节点
     else {
-      // 构造一个source数组，他的长度是新的一组节点在经过预处理之后剩余节点的数量
-      const len = newEndIndex + 1 - j
-      const source = new Array(len)
+      // 构造一个source数组，他的长度是新的一组节点在经过预处理之后剩余需要更新的节点数量
+      const count = newEndIndex + 1 - j
+      const source = new Array(count)
       source.fill(-1)
+      let moved = false // 标记是否移动过节点
+      let pos = 0 // 标记遍历旧节点的过程中遇到的最大索引值k
+      let patched = 0 // 标记已经更新过的节点的数量
+      // 遍历旧节点，如果旧节点的key和新节点key相同，则更新节点，否则标记source数组为-1，表示该节点需要卸载
+      // for (let i = j; i <= oldEndIndex; i++) {
+      //   const oldVnode = oldChildren[i]
+      //   for (let k = j; k <= newEndIndex; k++) {
+      //     const newVnode = newChildren[k]
+      //     if (oldVnode.key === newVnode.key) {
+      //       patch(oldVnode, newVnode, container)
+      //       source[k - j] = i
+      //     }
+      //   }
+      // }
+      // key索引表
+      const keyIndex = {}
+      // 遍历新节点，建议key索引表，方便在后续遍历旧节点时，根据key快速定位到新节点
+      for (let i = j; i <= newEndIndex; i++) {
+        keyIndex[newChildren[i].key] = i
+      }
+      // 遍历旧节点，如果key索引表中存在该旧节点的key，则更新节点，否则卸载
+      for (let i = j; i <= oldEndIndex; i++) {
+        const k = keyIndex[oldChildren[i].key]
+        // 如果已经更新过的节点数量小于需要更新的节点数量，则执行更新
+        if (patched <= count) {
+          if (k !== undefined) {
+            patch(oldChildren[i], newChildren[k], container)
+            // 每更新一个节点，更新patched的值
+            patched++
+            // 更新source数组
+            source[k - j] = i
+            // 判断节点是否需要移动
+            if (k < pos) {
+              moved = true
+            }
+            else {
+              pos = k
+            }
+          }
+          else {
+            unmount(oldChildren[i])
+          }
+        }
+        else {
+          unmount(oldChildren[i])
+        }
+      }
+      // 如果需要移动节点，则进行移动
+      if (moved) {
+        // 获取最长递增子序列
+        const seq = getSequence(source)
+        let i = count - 1 // 新节点中需要处理的节点尾指针
+        let s = seq.length - 1 // 最长递增子序列中的尾指针
+        for (; i >= 0; i--) {
+          // source[i] === -1 说明该节点需要挂载
+          if (source[i] === -1) {
+            // 找到该节点在新的节点中的位置
+            const pos = i + j
+            // 获取锚点元素
+            const anchor = pos + 1 < newChildren.length ? newChildren[pos + 1].el : null
+            // 执行挂载
+            patch(null, newChildren[pos], container, anchor)
+          }
+          if (i !== seq[s]) {
+            // 说明节点需要移动
+            const pos = i + j
+            // 获取锚点元素
+            const anchor = pos + 1 < newChildren.length ? newChildren[pos + 1].el : null
+            // 执行移动
+            insert(newChildren[pos].el, container, anchor)
+          }
+          else {
+            // 说明节点不需要移动，则指针向前移动
+            s--
+          }
+        }
+      }
     }
   }
   // 挂载
