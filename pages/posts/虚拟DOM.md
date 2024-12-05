@@ -8,6 +8,8 @@ duration: 30min
 
 [[toc]]
 
+> 来源：转自渡一React课程笔记
+
 虚拟 DOM 最早是由 React 团队提出来的，因此 React 团队在对虚拟 DOM 的定义上面有绝对的话语权。
 
 >https://react.docschina.org/docs/faq-internals.html
