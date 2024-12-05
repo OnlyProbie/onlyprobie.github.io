@@ -1,5 +1,7 @@
 import getSequence from '../utils/getSequence.js'
+import queueJob from '../utils/queueJob.js'
 import { Common, Fragment, Text } from './elementType.js'
+import { effect, reactive } from './reactive.js'
 /* eslint-disable unicorn/no-new-array */
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
@@ -7,7 +9,7 @@ import { Common, Fragment, Text } from './elementType.js'
 
 export function createRenderer(options) {
   const { createElement, setElementText, insert, patchProps, setText, createText, createComment } = options
-
+  // 卸载元素节点
   function unmount(vnode) {
     // 处理Fragment节点
     if (vnode.type === Fragment) {
@@ -19,7 +21,27 @@ export function createRenderer(options) {
       parent.removeChild(vnode.el)
     }
   }
-
+  // 挂载组件
+  function mountComponent(vnode, container, anchor) {
+    // 获取组件选项对象
+    const componentOptions = vnode.type
+    // 获取组件渲染函数，组件数据
+    const { render, data } = componentOptions
+    // 组件自身响应式数据
+    const state = reactive(data())
+    // 将组件的render函数包装到effect中，当组件自身状态发生改变时，触发组件更新
+    effect(() => {
+      // 执行渲染函数，将this设置为组件自身的state
+      // render 函数内部可以通过this访问自身状态
+      const subTree = render.call(state, state)
+      // 挂载组件
+      patch(null, subTree, container, anchor)
+    }, {
+      // 指定副作用函数的调度器为queueJob
+      scheduler: queueJob,
+    })
+  }
+  // 挂载元素节点
   function mountElement(vnode, container, anchor = null) {
     const el = (vnode.el = createElement(vnode.type))
     if (typeof vnode.children === 'string') {
@@ -261,8 +283,16 @@ export function createRenderer(options) {
         patchChildren(oldVnode, newVnode, container)
       }
     }
+    else if (typeof newVnode.type === 'object') { // 组件节点
+      if (!oldVnode) { // 没有旧节点，则挂载组件
+        mountComponent(newVnode, container, anchor)
+      }
+      else { // 存在旧节点，则更新组件
+        patchComponent(oldVnode, newVnode, anchor)
+      }
+    }
   }
-
+  // 渲染函数
   function render(vnode, container) {
     if (vnode) {
       // 有新节点，则进行渲染

@@ -59,3 +59,33 @@ const n2 = {
 
 render(n1, document.getElementById('app'))
 render(n2, document.getElementById('app'))
+
+const MyComponent = {
+  name: 'my-component',
+  data() {
+    return {
+      name: 'my-component',
+      age: 18,
+    }
+  },
+  render() {
+    return {
+      type: 'div',
+      children: [
+        {
+          type: 'p',
+          children: `name: ${this.name}, age: ${this.age}`,
+        },
+      ],
+    }
+  },
+}
+
+const VComponent = {
+  type: MyComponent,
+  props: {
+    name: 'v-component',
+  },
+}
+
+render(VComponent, document.getElementById('app1'))
