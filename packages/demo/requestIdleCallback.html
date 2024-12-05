@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const taskList = []
+      // 延时
+      function delay(duration) {
+        const start = Date.now()
+        while (Date.now() - start < duration) {}
+      }
+
+      for (let i = 1; i <= 10; i++) {
+        taskList.push(function () {
+          delay(10)
+          console.log('任务队列' + i)
+        })
+      }
+
+      function callback(IdleDeadline) {
+        console.log('当前帧剩余可用时间: ', IdleDeadline.timeRemaining())
+        // 如果当前帧有剩余时间，并且taskList任务队列中有任务，则取出任务执行
+        while (IdleDeadline.timeRemaining() > 0 && taskList.length) {
+          const task = taskList.shift()
+          task()
+        }
+        // 如果当前帧时间不足，但是任务队列中任务未执行完，则在下一帧中执行
+        if (taskList.length) {
+          window.requestIdleCallback(callback)
+        }
+      }
+
+      window.requestIdleCallback(callback)
+    </script>
+  </body>
+</html>
