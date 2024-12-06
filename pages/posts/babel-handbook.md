@@ -215,14 +215,30 @@ n * n;
 
 ```js
 {
-  type: "FunctionDeclaration",  id: {
-    type: "Identifier",    name: "square"  },  params: [{
-    type: "Identifier",    name: "n"  }],  body: {
-    type: "BlockStatement",    body: [{
-      type: "ReturnStatement",      argument: {
-        type: "BinaryExpression",        operator: "*",        left: {
-          type: "Identifier",          name: "n"        },        right: {
-          type: "Identifier",          name: "n"        }
+  type: "FunctionDeclaration",
+  id: {
+    type: "Identifier",
+    name: "square"
+  },
+  params: [{
+    type: "Identifier",
+    name: "n"
+  }],
+  body: {
+    type: "BlockStatement",
+    body: [{
+      type: "ReturnStatement",
+      argument: {
+        type: "BinaryExpression",
+        operator: "*",
+        left: {
+          type: "Identifier",
+          name: "n"
+        },
+        right: {
+          type: "Identifier",
+          name: "n"
+        }
       }
     }]
   }
@@ -252,11 +268,12 @@ Babel 的转换步骤全都是这样的遍历过程。
 ```js
 const MyVisitor = {
   Identifier() {
-    console.log("Called!");  }
+    console.log("Called!");
+  }
 };// 你也可以先创建一个访问者对象，并在稍后给它添加方法。
 let visitor = {};
 visitor.MemberExpression = function() {};
-visitor.FunctionDeclaration = function() {}
+visitor.FunctionDeclaration = function() {};
 ```
 
 > 注意： `Identifier() { ... }` 是 `Identifier: { enter() { ... } }` 的简写形式。
@@ -715,15 +732,20 @@ Babel Types模块拥有每一个单一类型节点的定义，包括节点包含
 
 ```js
 defineType("BinaryExpression", {
-  builder: ["operator", "left", "right"],  fields: {
+  builder: ["operator", "left", "right"],
+  fields: {
     operator: {
       validate: assertValueType("string")
-    },    left: {
+    },
+    left: {
       validate: assertNodeType("Expression")
-    },    right: {
+    },
+    right: {
       validate: assertNodeType("Expression")
     }
-  },  visitor: ["left", "right"],  aliases: ["Binary", "Expression"]
+  },
+  visitor: ["left", "right"],
+  aliases: ["Binary", "Expression"]
 });
 ```
 
