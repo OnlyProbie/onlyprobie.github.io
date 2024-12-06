@@ -393,7 +393,7 @@ export function createRenderer(options) {
       }
     }
   }
-  // diff算法
+  // 快速diff算法
   function patchKeyChildren(oldVnode, newVnode, container) {
     const oldChildren = oldVnode.children
     const newChildren = newVnode.children

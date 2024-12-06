@@ -34,7 +34,7 @@ function square(n) {
   return n * n;
 }
 ```
-> AST Explorer 可以让你对 AST 节点有一个更好的感性认识。 这里是上述代码的一个示例链接。
+> [AST Explorer](https://astexplorer.net/) 可以让你对 AST 节点有一个更好的感性认识。 这里是上述代码的一个示例链接。
 
 这个程序可以被表示成如下的一棵树：
 
@@ -175,18 +175,18 @@ n * n;
 ```js
 {
   type: {
-    label: 'name',    
-    keyword: undefined,    
-    beforeExpr: false,    
-    startsExpr: true,    
-    rightAssociative: false,    
-    isLoop: false,    
-    isAssign: false,    
-    prefix: false,    
-    postfix: false,    
-    binop: null,    
-    updateContext: null  
-  },  
+    label: 'name',
+    keyword: undefined,
+    beforeExpr: false,
+    startsExpr: true,
+    rightAssociative: false,
+    isLoop: false,
+    isAssign: false,
+    prefix: false,
+    postfix: false,
+    binop: null,
+    updateContext: null
+  },
   ...
 }
 ```
@@ -360,11 +360,11 @@ AST 通常会有许多节点，那么节点直接如何相互关联呢？ 我们
 
 ```js
 {
-  type: "FunctionDeclaration",  
+  type: "FunctionDeclaration",
   id: {
-    type: "Identifier",    
-    name: "square" 
-  },  
+    type: "Identifier",
+    name: "square"
+  },
   ...
 }
 ```
@@ -374,13 +374,13 @@ AST 通常会有许多节点，那么节点直接如何相互关联呢？ 我们
 ```js
 {
   "parent": {
-    "type": "FunctionDeclaration",    
-    "id": {...},    
-    ....  
-   },  
+    "type": "FunctionDeclaration",
+    "id": {...},
+    ....
+   },
    "node": {
-    "type": "Identifier",    
-    "name": "square"  
+    "type": "Identifier",
+    "name": "square"
    }
 }
 ```
@@ -389,26 +389,26 @@ AST 通常会有许多节点，那么节点直接如何相互关联呢？ 我们
 
 ```js
 {
-  "parent": {...},  
-  "node": {...},  
-  "hub": {...},  
-  "contexts": [],  
-  "data": {},  
-  "shouldSkip": false,  
-  "shouldStop": false,  
-  "removed": false,  
-  "state": null,  
-  "opts": null,  
-  "skipKeys": null,  
-  "parentPath": null,  
-  "context": null,  
-  "container": null,  
-  "listKey": null,  
-  "inList": false,  
-  "parentKey": null,  
-  "key": null,  
-  "scope": null,  
-  "type": null, 
+  "parent": {...},
+  "node": {...},
+  "hub": {...},
+  "contexts": [],
+  "data": {},
+  "shouldSkip": false,
+  "shouldStop": false,
+  "removed": false,
+  "state": null,
+  "opts": null,
+  "skipKeys": null,
+  "parentPath": null,
+  "context": null,
+  "container": null,
+  "listKey": null,
+  "inList": false,
+  "parentKey": null,
+  "key": null,
+  "scope": null,
+  "type": null,
   "typeAnnotation": null
 }
 ```
@@ -503,9 +503,9 @@ path.traverse(MyVisitor);
 ```js
 // global scope
 function scopeOne() {
-  // scope 1  
+  // scope 1
   function scopeTwo() {
-    // scope 2  
+    // scope 2
   }
 }
 ```
@@ -514,9 +514,9 @@ function scopeOne() {
 
 ```js
 var global = "I am in the global scope";function scopeOne() {
-  var one = "I am in the scope created by `scopeOne()`";  
+  var one = "I am in the scope created by `scopeOne()`";
   function scopeTwo() {
-    var two = "I am in the scope created by `scopeTwo()`";  
+    var two = "I am in the scope created by `scopeTwo()`";
   }
 }
 ```
@@ -525,9 +525,9 @@ var global = "I am in the global scope";function scopeOne() {
 
 ```js
 function scopeOne() {
-  var one = "I am in the scope created by `scopeOne()`";  
+  var one = "I am in the scope created by `scopeOne()`";
   function scopeTwo() {
-    one = "I am updating the reference in `scopeOne` inside `scopeTwo`";  
+    one = "I am updating the reference in `scopeOne` inside `scopeTwo`";
   }
 }
 ```
@@ -536,9 +536,9 @@ function scopeOne() {
 
 ```js
 function scopeOne() {
-  var one = "I am in the scope created by `scopeOne()`";  
+  var one = "I am in the scope created by `scopeOne()`";
   function scopeTwo() {
-    var one = "I am creating a new `one` but leaving reference in `scopeOne()` alone.";  
+    var one = "I am creating a new `one` but leaving reference in `scopeOne()` alone.";
   }
 }
 ```
@@ -551,10 +551,10 @@ function scopeOne() {
 
 ```js
 {
-  path: path,  
-  block: path.node,  
-  parentBlock: path.parent,  
-  parent: parentScope,  
+  path: path,
+  block: path.node,
+  parentBlock: path.parent,
+  parent: parentScope,
   bindings: [...]
 }
 ```
@@ -569,10 +569,10 @@ function scopeOne() {
 
 ```js
 function scopeOnce() {
-  var ref = "This is a binding";  
-  ref; // This is a reference to a binding  
+  var ref = "This is a binding";
+  ref; // This is a reference to a binding
   function scopeTwo() {
-    ref; // This is a reference to a binding from a lower scope  
+    ref; // This is a reference to a binding from a lower scope
   }
 }
 ```
@@ -583,14 +583,14 @@ function scopeOnce() {
 Text for Translation
 
 {
-  identifier: node,  
-  scope: scope,  
-  path: path,  
-  kind: 'var',  
-  referenced: true,  
-  references: 3,  
-  referencePaths: [path, path, path],  
-  constant: false,  
+  identifier: node,
+  scope: scope,
+  path: path,
+  kind: 'var',
+  referenced: true,
+  references: 3,
+  referencePaths: [path, path, path],
+  constant: false,
   constantViolations: [path]
 }
 ```
@@ -601,11 +601,11 @@ Text for Translation
 
 ```js
 function scopeOne() {
-  var ref1 = "This is a constant binding";  
-  becauseNothingEverChangesTheValueOf(ref1);  
+  var ref1 = "This is a constant binding";
+  becauseNothingEverChangesTheValueOf(ref1);
   function scopeTwo() {
-    var ref2 = "This is *not* a constant binding";    
-    ref2 = "Because this changes the value";  
+    var ref2 = "This is *not* a constant binding";
+    ref2 = "Because this changes the value";
   }
 }
 ```
@@ -647,7 +647,7 @@ babylon.parse(code);
 
 ```js
 babylon.parse(code, {
-  sourceType: "module", // default: "script"  
+  sourceType: "module", // default: "script"
   plugins: ["jsx"] // default: []
 });
 ```
@@ -678,7 +678,7 @@ const ast = babylon.parse(code);
 traverse(ast, {
   enter(path) {
     if (path.node.type === "Identifier" && path.node.name === "n") {
-      path.node.name = "x";    
+      path.node.name = "x";
     }
   }
 });
@@ -701,7 +701,7 @@ import * as t from "babel-types";
 traverse(ast, {
   enter(path) {
     if (t.isIdentifier(path.node, { name: "n" })) {
-      path.node.name = "x";    
+      path.node.name = "x";
     }
   }
 });
@@ -745,15 +745,15 @@ t.binaryExpression("*", t.identifier("a"), t.identifier("b"));
 
 ```js
 {
-  type: "BinaryExpression",  
-  operator: "*",  
+  type: "BinaryExpression",
+  operator: "*",
   left: {
-    type: "Identifier",   
-    name: "a"  
-  },  
+    type: "Identifier",
+    name: "a"
+  },
   right: {
-    type: "Identifier",    
-    name: "b"  
+    type: "Identifier",
+    name: "b"
   }
 }
 ```
@@ -797,10 +797,10 @@ generate(ast, {}, code);
 
 ```js
 generate(ast, {
-  retainLines: false,  
-  compact: "auto",  
-  concise: false,  
-  quotes: "double",  
+  retainLines: false,
+  compact: "auto",
+  concise: false,
+  quotes: "double",
   // ...
 }, code);
 ```
@@ -1140,7 +1140,7 @@ BinaryExpression(path) {
 
 如果您在顶级路径中进行子遍历，则可以使用2个提供的API方法：
 
-- path.skip() 跳过遍历当前路径的子路径。 
+- path.skip() 跳过遍历当前路径的子路径。
 - path.stop() 完全停止遍历。
 
 ```js
@@ -1212,8 +1212,8 @@ FunctionDeclaration(path) { path.replaceWithSourceString(function add(a, b) { re
 ### 插入兄弟节点
 
 ```js
-FunctionDeclaration(path) { 
-    path.insertBefore(t.expressionStatement(t.stringLiteral("Because I'm easy come, easy go."))); 
+FunctionDeclaration(path) {
+    path.insertBefore(t.expressionStatement(t.stringLiteral("Because I'm easy come, easy go.")));
     path.insertAfter(t.expressionStatement(t.stringLiteral("A little high, little low.")));
 }
 ```
@@ -1232,9 +1232,9 @@ FunctionDeclaration(path) {
 如果您想要在AST节点属性中插入一个像body那样的数组。 它与 `insertBefore/insertAfter` 类似, 但您必须指定 `listKey` (通常是 正文).
 
 ```js
-ClassMethod(path) { 
-    path.get('body').unshiftContainer('body', t.expressionStatement(t.stringLiteral('before'))); 
-    path.get('body').pushContainer('body', t.expressionStatement(t.stringLiteral('after'))); 
+ClassMethod(path) {
+    path.get('body').unshiftContainer('body', t.expressionStatement(t.stringLiteral('before')));
+    path.get('body').pushContainer('body', t.expressionStatement(t.stringLiteral('after')));
 }
 ```
 ```diff
@@ -1643,7 +1643,7 @@ path.traverse({
 ```js
 const nestedVisitor = {
   Identifier(path) {
-    // ...  
+    // ...
   }
 };
 const MyVisitor = {
@@ -1659,7 +1659,7 @@ const MyVisitor = {
 const MyVisitor = {
   FunctionDeclaration(path) {
     path.node.params.forEach(function() {
-      // ...    
+      // ...
     });
   }
 };
@@ -1674,9 +1674,9 @@ const MyVisitor = {
   FunctionDeclaration(path) {
     path.traverse({
       Identifier(path) {
-        // ...      
+        // ...
       }
-    });  
+    });
   }
 };
 ```
@@ -1686,7 +1686,7 @@ const MyVisitor = {
 ```js
 const nestedVisitor = {
   Identifier(path) {
-    // ... 
+    // ...
   }
 };
 const MyVisitor = {
@@ -1705,10 +1705,10 @@ const MyVisitor = {
     path.traverse({
       Identifier(path) {
         if (path.node.name === exampleState) {
-          // ...        
+          // ...
         }
       }
-    });  
+    });
   }
 };
 ```
@@ -1719,16 +1719,16 @@ const MyVisitor = {
 const nestedVisitor = {
   Identifier(path) {
     if (path.node.name === this.exampleState) {
-      // ...    
+      // ...
     }
   }
 };
 const MyVisitor = {
   FunctionDeclaration(path) {
     var exampleState = path.node.params[0].name;
-    path.traverse(nestedVisitor, { 
-        exampleState 
-    });  
+    path.traverse(nestedVisitor, {
+        exampleState
+    });
   }
 };
 ```
@@ -1742,13 +1742,13 @@ const MyVisitor = {
 ```js
 class Foo {
   constructor() {
-    // ...  
+    // ...
   }
 }
 const constructorVisitor = {
   ClassMethod(path) {
     if (path.node.name === 'constructor') {
-      // ...    
+      // ...
     }
   }
 }
@@ -1768,7 +1768,7 @@ class Foo {
   constructor() {
     class Bar {
       constructor() {
-        // ...     
+        // ...
       }
     }
   }
@@ -1798,7 +1798,7 @@ module.exports = function testPlugin(babel) {
 
 ## 快照测试
 
-接下来，用`npm install --save-dev babel-core jest`安装我们的依赖关系，那么我们可以开始写我们的第一个测试：快照。 
+接下来，用`npm install --save-dev babel-core jest`安装我们的依赖关系，那么我们可以开始写我们的第一个测试：快照。
 
 快照测试允许我们直观地检查我们的babel插件的输出。 我们给它一个输入，告诉它一个快照，并将其保存到一个文件。
 
@@ -1826,7 +1826,7 @@ exports[`test works 1`] = `"var bar = 1;if (bar) console.log(bar);"`;
 ```diff
 - Snapshot
 + Received
--1,3 
+-1,3
 +1,3
 -var bar = 1;
 -if (bar) console.log(bar);
