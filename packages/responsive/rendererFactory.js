@@ -1,11 +1,180 @@
 import getSequence from '../utils/getSequence.js'
 import queueJob from '../utils/queueJob.js'
 import { Common, Fragment, Text } from './elementType.js'
-import { effect, reactive } from './reactive.js'
+import { effect, reactive, shallowReactive } from './reactive.js'
 /* eslint-disable unicorn/no-new-array */
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 /* eslint-disable unused-imports/no-unused-vars */
+
+// 简单diff算法
+function simplePatchKeyChildren(oldVnode, newVnode, container) {
+  const oldChildren = oldVnode.children
+  const newChildren = newVnode.children
+  let lastIndex = 0 // 用来存储寻找过程中遇到的最大索引值
+  for (let i = 0; i < newChildren.length; i++) {
+    const newVnode = newChildren[i]
+    let find = false // 用来标记是否找到该节点
+    for (let j = 0; j < oldChildren.length; j++) {
+      const oldVnode = oldChildren[j]
+      if (oldVnode.key === newVnode.key) {
+        find = true
+        patch(oldVnode, newVnode, container)
+        if (j < lastIndex) {
+          // 说明需要移动节点
+          // 获取当前新节点的前一个真实DOM节点
+          const prevNode = newChildren[i - 1]
+          // 如果当前新节点的前一个真实DOM节点存在，则获取该真实DOM节点的下个真实DOM节点
+          // 将该新节点插入到前一个真实DOM节点之后
+          if (prevNode) {
+            const nextNode = prevNode.el.nextSibling
+            insert(newVnode.el, container, nextNode)
+          }
+        }
+        else {
+          lastIndex = j
+        }
+        break
+      }
+    }
+    if (!find) { // 没有找到该节点，说明是新增的节点，则挂载该节点
+      const prevNode = newChildren[i - 1]
+      let anchor = null
+      if (prevNode) {
+        anchor = prevNode.el.nextSibling
+      }
+      else {
+        anchor = container.firstChild
+      }
+      patch(null, newVnode, container, anchor)
+    }
+  }
+  // 上述处理完成之后，需要遍历一遍旧节点，如果存在没有匹配的节点，则卸载该节点
+  for (let i = 0; i < oldChildren.length; i++) {
+    const hasFind = newChildren.find(item => item.key === oldChildren[i].key)
+    if (!hasFind) {
+      unmount(oldChildren[i])
+    }
+  }
+}
+
+// 双端diff算法实现
+function doublePatchKeyChildren(oldVnode, newVnode, container) {
+  const oldChildren = oldVnode.children
+  const newChildren = newVnode.children
+  // 双端diff算法实现
+  let oldStartIndex = 0
+  let oldEndIndex = oldChildren.length - 1
+  let newStartIndex = 0
+  let newEndIndex = newChildren.length - 1
+  let oldStartNode = oldChildren[oldStartIndex]
+  let oldEndNode = oldChildren[oldEndIndex]
+  let newStartNode = newChildren[newStartIndex]
+  let newEndNode = newChildren[newEndIndex]
+  while (oldStartIndex <= oldEndIndex && newStartIndex <= newEndIndex) {
+    // 对头尾节点进行判断，如果不存在，则说明已经处理过了，跳过
+    if (!oldStartNode) {
+      oldStartNode = oldChildren[++oldStartIndex]
+    }
+    else if (!oldEndNode) {
+      oldEndNode = oldChildren[--oldEndIndex]
+    }
+    else if (oldStartNode.key === newStartNode.key) {
+      // 1 oldStartNode 和 newStartNode 的比较
+      patch(oldStartNode, newStartNode, container)
+      oldStartNode = oldChildren[++oldStartIndex]
+      newStartNode = newChildren[++newStartIndex]
+    }
+    else if (oldEndNode.key === newEndNode.key) {
+      // 2 oldEndNode 和 newEndNode 的比较
+      patch(oldEndNode, newEndNode, container)
+      oldEndNode = oldChildren[--oldEndIndex]
+      newEndNode = newChildren[--newEndIndex]
+    }
+    else if (oldStartNode.key === newEndNode.key) {
+      // 3 oldStartNode 和 newEndNode 的比较
+      patch(oldStartNode, newEndNode, container)
+      // 将oldStartNode移动到oldEndNode之后
+      insert(oldStartNode.el, container, oldEndNode.el.nextSibling)
+      // 更新对应的索引
+      oldStartNode = oldChildren[++oldStartIndex]
+      newEndNode = newChildren[--newEndIndex]
+    }
+    else if (oldEndNode.key === newStartNode.key) {
+      // 4 oldEndNode 和 newStartNode 的比较
+      patch(oldEndNode, newStartNode, container)
+      // 将oldEndNode移动到oldStartNode之前
+      insert(oldEndNode.el, container, oldStartNode.el)
+      // 更新对应的索引
+      oldEndNode = oldChildren[--oldEndIndex]
+      newStartNode = newChildren[++newStartIndex]
+    }
+    else {
+      // 如果以上四种情况都不符合，则我们直接查找新旧节点中是否存在相同的key
+      // 找到了就将该节点移动到oldStartNode之前
+      const idxInOld = oldChildren.findIndex(item => item.key === newStartNode.key)
+      if (idxInOld > 0) {
+        patch(oldChildren[idxInOld], newStartNode, container)
+        insert(oldChildren[idxInOld].el, container, oldStartNode.el)
+        oldChildren[idxInOld] = undefined
+      }
+      else {
+        // 如果找不到，说明是新增节点
+        patch(null, newStartNode, container, oldStartNode.el)
+      }
+      newStartNode = newChildren[++newStartIndex]
+    }
+  }
+  // 新增元素
+  // 如果 oldEndIndex < oldStartIndex, 并且 newEndIndex >= newStartIndex, 说明存在没有匹配的新节点，需要挂载
+  if (oldEndIndex < oldStartIndex && newEndIndex >= newStartIndex) {
+    for (let i = newStartIndex; i <= newEndIndex; i++) {
+      patch(null, newChildren[i], container, null)
+    }
+  }
+  else if (newEndIndex < oldEndIndex) {
+    // 删除元素
+    // 如果 newEndIndex < newStartIndex && oldEndIndex >= oldStartIndex, 说明存在没有匹配的旧节点，需要卸载
+    for (let i = oldStartIndex; i <= oldEndIndex; i++) {
+      unmount(oldChildren[i])
+    }
+  }
+}
+
+// 解析props
+function resolveProps(options, propsData) {
+  const props = {}
+  const attrs = {}
+  // 遍历传入的props，如果组件的props配置中包含该属性，则该属性是合法的props属性，否则就视为attrs属性
+  for (const key in propsData) {
+    if (key in options) {
+      props[key] = propsData[key]
+    }
+    else {
+      attrs[key] = propsData[key]
+    }
+  }
+  return {
+    props,
+    attrs,
+  }
+}
+// 是否需要更新props
+function hasPropsChange(oldProps, newProps) {
+  // 获取新props的key集合
+  const newKeys = Object.keys(newProps)
+  // 如果新旧props的key集合长度不同，则说明props发生了变化
+  if (newKeys.length !== Object.keys(oldProps).length)
+    return true
+  // 如果长度相同，需要比较值是否发生了变化
+  for (const key in newProps) {
+    // 如果有不同，则说明props发生了变化
+    if (newProps[key] !== oldProps[key]) {
+      return true
+    }
+  }
+  return false
+}
 
 export function createRenderer(options) {
   const { createElement, setElementText, insert, patchProps, setText, createText, createComment } = options
@@ -25,17 +194,84 @@ export function createRenderer(options) {
   function mountComponent(vnode, container, anchor) {
     // 获取组件选项对象
     const componentOptions = vnode.type
-    // 获取组件渲染函数，组件数据
-    const { render, data } = componentOptions
+    // 获取组件配置
+    const { render, data, props: propsOptions, beforeCreate, created, beforeMount, mounted, beforeUpdate, updated } = componentOptions
+    // beforeCreate钩子函数调用
+    beforeCreate && beforeCreate()
     // 组件自身响应式数据
     const state = reactive(data())
+    // 通过resolveProps解析出最终的props和attrs
+    const { props, attrs } = resolveProps(propsOptions, vnode.props)
+
+    // 组件实例对象
+    const instance = {
+      state, // 组件自身状态
+      props: shallowReactive(props), // 组件props
+      isMounted: false, // 是否已挂载
+      subTree: null, // 组件子树
+    }
+    // 将组建实例挂载到vnode上
+    vnode.component = instance
+
+    // 创建组件渲染上下文对象
+    const renderContext = new Proxy(instance, {
+      get(t, k, r) {
+        const { props, state } = t
+        if (state && k in state) {
+          return state[k]
+        }
+        else if (k in props) {
+          return props[k]
+        }
+        else {
+          console.error(`${k} is not found in component!`)
+        }
+      },
+      set(t, k, v, r) {
+        const { state, props } = t
+        if (state && k in state) {
+          state[k] = v
+        }
+        else if (k in props) {
+          console.warn(`props is readonly!`)
+        }
+        else {
+          console.error(`${k} is not found in component!`)
+        }
+      },
+    })
+
+    // created钩子函数调用
+    created && created.call(renderContext)
+
     // 将组件的render函数包装到effect中，当组件自身状态发生改变时，触发组件更新
     effect(() => {
       // 执行渲染函数，将this设置为组件自身的state
       // render 函数内部可以通过this访问自身状态
-      const subTree = render.call(state, state)
-      // 挂载组件
-      patch(null, subTree, container, anchor)
+      const subTree = render.call(renderContext, renderContext)
+      // 如果没有挂载
+      if (!instance.isMounted) {
+        // beforeMount钩子函数调用
+        beforeMount && beforeMount.call(renderContext)
+        // 挂载组件
+        patch(null, subTree, container, anchor)
+        // 更新挂载状态为true，避免重复挂载
+        instance.isMounted = true
+        // mounted钩子函数调用
+        mounted && mounted.call(renderContext)
+      }
+      else {
+        // beforeUpdate钩子函数调用
+        beforeUpdate && beforeUpdate.call(renderContext)
+        // 如果isMounted为true，说明组件已经挂载过了，则需要更新组件自身状态
+        // 所以调用patch函数的时候，第一个参数为组件上一次渲染的子树
+        // 即使用新的子树与上一次渲染的子树进行补丁操作
+        patch(instance.subTree, subTree, container, anchor)
+        // updated钩子函数调用
+        updated && updated.call(renderContext)
+      }
+      // 更新组件子树
+      instance.subTree = subTree
     }, {
       // 指定副作用函数的调度器为queueJob
       scheduler: queueJob,
@@ -59,6 +295,27 @@ export function createRenderer(options) {
       }
     }
     insert(el, container, anchor)
+  }
+  // 更新组件
+  function patchComponent(oldVnode, newVnode, anchor) {
+    // 获取组件实例，同时让新的组件虚拟节点指向该组件实例
+    const instance = (newVnode.component = oldVnode.component)
+    // 获取当前组件实例的props
+    const { props } = instance
+    if (hasPropsChange(oldVnode.props, newVnode.props)) {
+      // 重新获取新的props数据
+      const { props: newProps } = resolveProps(newVnode.type.props, newVnode.props)
+      // 更新组件的props
+      for (const k in newProps) {
+        props[k] = newProps[k]
+      }
+      // 不存在的props属性需要删除
+      for (const k in props) {
+        if (!(k in newProps)) {
+          delete props[k]
+        }
+      }
+    }
   }
   // 更新元素
   function patchElement(oldVnode, newVnode) {
@@ -284,10 +541,12 @@ export function createRenderer(options) {
       }
     }
     else if (typeof newVnode.type === 'object') { // 组件节点
-      if (!oldVnode) { // 没有旧节点，则挂载组件
+      if (!oldVnode) {
+        // 没有旧节点，则挂载组件
         mountComponent(newVnode, container, anchor)
       }
-      else { // 存在旧节点，则更新组件
+      else {
+        // 存在旧节点，则更新组件
         patchComponent(oldVnode, newVnode, anchor)
       }
     }
@@ -310,139 +569,5 @@ export function createRenderer(options) {
 
   return {
     render,
-  }
-}
-
-// 简单diff算法
-function simplePatchKeyChildren(oldVnode, newVnode, container) {
-  const oldChildren = oldVnode.children
-  const newChildren = newVnode.children
-  let lastIndex = 0 // 用来存储寻找过程中遇到的最大索引值
-  for (let i = 0; i < newChildren.length; i++) {
-    const newVnode = newChildren[i]
-    let find = false // 用来标记是否找到该节点
-    for (let j = 0; j < oldChildren.length; j++) {
-      const oldVnode = oldChildren[j]
-      if (oldVnode.key === newVnode.key) {
-        find = true
-        patch(oldVnode, newVnode, container)
-        if (j < lastIndex) {
-          // 说明需要移动节点
-          // 获取当前新节点的前一个真实DOM节点
-          const prevNode = newChildren[i - 1]
-          // 如果当前新节点的前一个真实DOM节点存在，则获取该真实DOM节点的下个真实DOM节点
-          // 将该新节点插入到前一个真实DOM节点之后
-          if (prevNode) {
-            const nextNode = prevNode.el.nextSibling
-            insert(newVnode.el, container, nextNode)
-          }
-        }
-        else {
-          lastIndex = j
-        }
-        break
-      }
-    }
-    if (!find) { // 没有找到该节点，说明是新增的节点，则挂载该节点
-      const prevNode = newChildren[i - 1]
-      let anchor = null
-      if (prevNode) {
-        anchor = prevNode.el.nextSibling
-      }
-      else {
-        anchor = container.firstChild
-      }
-      patch(null, newVnode, container, anchor)
-    }
-  }
-  // 上述处理完成之后，需要遍历一遍旧节点，如果存在没有匹配的节点，则卸载该节点
-  for (let i = 0; i < oldChildren.length; i++) {
-    const hasFind = newChildren.find(item => item.key === oldChildren[i].key)
-    if (!hasFind) {
-      unmount(oldChildren[i])
-    }
-  }
-}
-
-// 双端diff算法实现
-function doublePatchKeyChildren(oldVnode, newVnode, container) {
-  const oldChildren = oldVnode.children
-  const newChildren = newVnode.children
-  // 双端diff算法实现
-  let oldStartIndex = 0
-  let oldEndIndex = oldChildren.length - 1
-  let newStartIndex = 0
-  let newEndIndex = newChildren.length - 1
-  let oldStartNode = oldChildren[oldStartIndex]
-  let oldEndNode = oldChildren[oldEndIndex]
-  let newStartNode = newChildren[newStartIndex]
-  let newEndNode = newChildren[newEndIndex]
-  while (oldStartIndex <= oldEndIndex && newStartIndex <= newEndIndex) {
-    // 对头尾节点进行判断，如果不存在，则说明已经处理过了，跳过
-    if (!oldStartNode) {
-      oldStartNode = oldChildren[++oldStartIndex]
-    }
-    else if (!oldEndNode) {
-      oldEndNode = oldChildren[--oldEndIndex]
-    }
-    else if (oldStartNode.key === newStartNode.key) {
-      // 1 oldStartNode 和 newStartNode 的比较
-      patch(oldStartNode, newStartNode, container)
-      oldStartNode = oldChildren[++oldStartIndex]
-      newStartNode = newChildren[++newStartIndex]
-    }
-    else if (oldEndNode.key === newEndNode.key) {
-      // 2 oldEndNode 和 newEndNode 的比较
-      patch(oldEndNode, newEndNode, container)
-      oldEndNode = oldChildren[--oldEndIndex]
-      newEndNode = newChildren[--newEndIndex]
-    }
-    else if (oldStartNode.key === newEndNode.key) {
-      // 3 oldStartNode 和 newEndNode 的比较
-      patch(oldStartNode, newEndNode, container)
-      // 将oldStartNode移动到oldEndNode之后
-      insert(oldStartNode.el, container, oldEndNode.el.nextSibling)
-      // 更新对应的索引
-      oldStartNode = oldChildren[++oldStartIndex]
-      newEndNode = newChildren[--newEndIndex]
-    }
-    else if (oldEndNode.key === newStartNode.key) {
-      // 4 oldEndNode 和 newStartNode 的比较
-      patch(oldEndNode, newStartNode, container)
-      // 将oldEndNode移动到oldStartNode之前
-      insert(oldEndNode.el, container, oldStartNode.el)
-      // 更新对应的索引
-      oldEndNode = oldChildren[--oldEndIndex]
-      newStartNode = newChildren[++newStartIndex]
-    }
-    else {
-      // 如果以上四种情况都不符合，则我们直接查找新旧节点中是否存在相同的key
-      // 找到了就将该节点移动到oldStartNode之前
-      const idxInOld = oldChildren.findIndex(item => item.key === newStartNode.key)
-      if (idxInOld > 0) {
-        patch(oldChildren[idxInOld], newStartNode, container)
-        insert(oldChildren[idxInOld].el, container, oldStartNode.el)
-        oldChildren[idxInOld] = undefined
-      }
-      else {
-        // 如果找不到，说明是新增节点
-        patch(null, newStartNode, container, oldStartNode.el)
-      }
-      newStartNode = newChildren[++newStartIndex]
-    }
-  }
-  // 新增元素
-  // 如果 oldEndIndex < oldStartIndex, 并且 newEndIndex >= newStartIndex, 说明存在没有匹配的新节点，需要挂载
-  if (oldEndIndex < oldStartIndex && newEndIndex >= newStartIndex) {
-    for (let i = newStartIndex; i <= newEndIndex; i++) {
-      patch(null, newChildren[i], container, null)
-    }
-  }
-  else if (newEndIndex < oldEndIndex) {
-    // 删除元素
-    // 如果 newEndIndex < newStartIndex && oldEndIndex >= oldStartIndex, 说明存在没有匹配的旧节点，需要卸载
-    for (let i = oldStartIndex; i <= oldEndIndex; i++) {
-      unmount(oldChildren[i])
-    }
   }
 }

@@ -62,6 +62,9 @@ render(n2, document.getElementById('app'))
 
 const MyComponent = {
   name: 'my-component',
+  props: {
+    title: String,
+  },
   data() {
     return {
       name: 'my-component',
@@ -74,7 +77,7 @@ const MyComponent = {
       children: [
         {
           type: 'p',
-          children: `name: ${this.name}, age: ${this.age}`,
+          children: `name: ${this.name}, age: ${this.age}, title: ${this.title}`,
         },
       ],
     }
@@ -84,7 +87,8 @@ const MyComponent = {
 const VComponent = {
   type: MyComponent,
   props: {
-    name: 'v-component',
+    title: 'A big title',
+    // other: this.val,
   },
 }
 
