@@ -1,7 +1,7 @@
 import getSequence from '../utils/getSequence.js'
 import queueJob from '../utils/queueJob.js'
 import { Common, Fragment, Text } from './elementType.js'
-import { effect, reactive, shallowReactive } from './reactive.js'
+import { effect, reactive, shallowReactive, shallowReadonly } from './reactive.js'
 /* eslint-disable unicorn/no-new-array */
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
@@ -195,11 +195,11 @@ export function createRenderer(options) {
     // 获取组件选项对象
     const componentOptions = vnode.type
     // 获取组件配置
-    const { render, data, props: propsOptions, beforeCreate, created, beforeMount, mounted, beforeUpdate, updated } = componentOptions
+    let { render, data, setup, props: propsOptions, beforeCreate, created, beforeMount, mounted, beforeUpdate, updated } = componentOptions
     // beforeCreate钩子函数调用
     beforeCreate && beforeCreate()
     // 组件自身响应式数据
-    const state = reactive(data())
+    const state = data ? reactive(data()) : null
     // 通过resolveProps解析出最终的props和attrs
     const { props, attrs } = resolveProps(propsOptions, vnode.props)
 
@@ -213,6 +213,23 @@ export function createRenderer(options) {
     // 将组建实例挂载到vnode上
     vnode.component = instance
 
+    const setupContext = { attrs }
+    // 获取组件的setup返回结果
+    const setupResult = setup ? setup(shallowReadonly(instance.props), setupContext) : null
+    // 用来记录setup方法暴露的数据
+    let setupState = null
+    if (typeof setupResult === 'function') {
+      // 如果setup返回的是函数，则将该函数赋值给render
+      if (render) {
+        // 如果render函数同时存在于setup和组件选项中，优先使用setup返回的render函数
+        console.warn('render function is defined in both setup and component options! use setup render function!')
+        render = setupResult
+      }
+    }
+    else {
+      // 如果setup返回的不是函数，则将setup返回结果赋值给setupState
+      setupState = setupResult
+    }
     // 创建组件渲染上下文对象
     const renderContext = new Proxy(instance, {
       get(t, k, r) {
@@ -222,6 +239,9 @@ export function createRenderer(options) {
         }
         else if (k in props) {
           return props[k]
+        }
+        else if (setupState && k in setupState) {
+          return setupState[k]
         }
         else {
           console.error(`${k} is not found in component!`)
@@ -234,6 +254,9 @@ export function createRenderer(options) {
         }
         else if (k in props) {
           console.warn(`props is readonly!`)
+        }
+        else if (setupState && k in setupState) {
+          setupState[k] = v
         }
         else {
           console.error(`${k} is not found in component!`)

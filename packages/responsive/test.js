@@ -77,9 +77,14 @@ const MyComponent = {
       children: [
         {
           type: 'p',
-          children: `name: ${this.name}, age: ${this.age}, title: ${this.title}`,
+          children: `name: ${this.name}, age: ${this.age}, title: ${this.title}, val: ${this.val}`,
         },
       ],
+    }
+  },
+  setup() {
+    return {
+      val: 123,
     }
   },
 }
