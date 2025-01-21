@@ -195,11 +195,11 @@ Li2Fiber.return = UlFiber;
 
 ```js
 function performUnitOfWork(fiberNode){
-  // 省略 beginWork 
+  // 省略 beginWork
   if(fiberNode.child){
     performUnitOfWork(fiberNode.child);
   }
-  // 省略 CompleteWork 
+  // 省略 CompleteWork
   if(fiberNode.sibling){
     performUnitOfWork(fiberNode.sibling);
   }
@@ -225,31 +225,3 @@ Renderer 工作的阶段被称之为 commit 阶段。该阶段会将各种副作
 - Layout 阶段
 
 <img src="https://xiejie-typora.oss-cn-chengdu.aliyuncs.com/2023-03-02-090354.png" alt="image-20230302170353345" style="zoom:50%;" />
-
-
-
-
-
-## 真题解答
-
-> 题目：是否了解过 React 的整体渲染流程？里面主要有哪些阶段？
->
-> 参考答案：
->
-> React 整体的渲染流程可以分为两大阶段，分别是 render 阶段和 commit 阶段。
->
-> render 阶段里面会经由调度器和协调器处理，此过程是在内存中运行，是异步可中断的。
->
-> commit 阶段会由渲染器进行处理，根据副作用进行 UI 的更新，此过程是同步不可中断的，否则会造成 UI 和数据显示不一致。
->
-> **调度器**
->
-> 调度器的主要工作就是调度任务，让所有的任务有优先级的概念，这样的话紧急的任务可以优先执行。Scheduler 实际上在浏览器的 API 中是有原生实现的，这个 API 叫做 requestIdleCallback，但是由于兼容性问题，React 放弃了使用这个 API，而是自己实现了一套这样的机制，并且后期会把 Scheduler 这个包单独的进行发布，变成一个独立的包。这就意味 Scheduler 不仅仅是只能在 React 中使用，后面如果有其他的项目涉及到了任务调度的需求，都可以使用这个 Scheduler。
->
-> **协调器**
->
-> 协调器是 Render 的第二阶段工作。该阶段会采用深度优先的原则遍历并且创建一个一个的 FiberNode，并将其串联在一起，在遍历时分为了“递”与“归”两个阶段，其中在“递”阶段会执行 beginWork 方法，该方法会根据传入的 FiberNode 创建下一级 FiberNode。而“归”阶段则会执行 CompleteWork 方法，做一些副作用的收集
->
-> **渲染器**
->
-> 渲染器的工作主要就是将各种副作用（flags 表示）commit 到宿主环境的 UI 中。整个阶段可以分为三个子阶段，分别是 BeforeMutation 阶段、Mutation 阶段和 Layout 阶段。
