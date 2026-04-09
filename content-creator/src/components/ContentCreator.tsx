@@ -438,9 +438,7 @@ export default function ContentCreator() {
                   />
                   <div className="flex justify-between items-center mt-2 text-xs text-gray-500">
                     <span>
-                      {'约 '}
                       {calculateReadingTime(content, formData.lang as string || 'zh')}
-                      {' 阅读'}
                     </span>
                   </div>
                 </div>
