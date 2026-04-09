@@ -115,6 +115,41 @@ export function slugify(text: string): string {
     .trim()
 }
 
+/**
+ * 根据内容字数自动计算阅读时长
+ * - 中文: 按字符数计算，每分钟约 200 字
+ * - 英文: 按单词数计算，每分钟约 250 词
+ */
+export function calculateReadingTime(content: string, lang: string = 'zh'): string {
+  if (!content || content.trim().length === 0) {
+    return '1min'
+  }
+
+  let count: number
+
+  if (lang === 'en') {
+    // 英文: 按单词数计算
+    // 移除 markdown 语法干扰
+    const cleanContent = content
+      .replace(/```[\s\S]*?```/g, '') // 移除代码块
+      .replace(/`[^`]+`/g, '') // 移除行内代码
+      .replace(/[#*_[\]()]/g, ' ') // 移除 markdown 符号
+    const words = cleanContent.trim().split(/\s+/).filter(w => w.length > 0)
+    count = words.length
+    return `${Math.max(1, Math.ceil(count / 250))}min`
+  }
+  else {
+    // 中文: 按字符数计算
+    // 移除 markdown 语法干扰
+    const cleanContent = content
+      .replace(/```[\s\S]*?```/g, '') // 移除代码块
+      .replace(/`[^`]+`/g, '') // 移除行内代码
+      .replace(/[#*_[\]()~`]/g, '') // 移除 markdown 符号
+    count = cleanContent.length
+    return `${Math.max(1, Math.ceil(count / 200))}min`
+  }
+}
+
 export function generateFilename(type: ContentType, data: Record<string, string | string[]>): string {
   if (type === 'daily') {
     const date = Array.isArray(data.date) ? data.date[0] : data.date
@@ -143,6 +178,12 @@ export function generateMarkdown(type: ContentType, fields: Record<string, strin
     return lines.map(line => line.replace(/^-\s*/, ''))
   }
 
+  // Get language for reading time calculation
+  const lang = Array.isArray(fields.lang) ? fields.lang[0] : (fields.lang || 'zh')
+
+  // Calculate reading time based on content length
+  const readingTime = calculateReadingTime(content, lang)
+
   config.fields.forEach((field) => {
     // Skip images field (multiple images handled separately by API)
     if (field.type === 'images')
@@ -150,6 +191,11 @@ export function generateMarkdown(type: ContentType, fields: Record<string, strin
     // Handle single image - show placeholder path instead of base64
     if (field.type === 'image') {
       return // Don't include in preview, will be added from coverImage
+    }
+    // Auto-calculate duration from content
+    if (field.key === 'duration') {
+      frontmatter[field.key] = readingTime
+      return
     }
     if (field.key === 'draft') {
       frontmatter[field.key] = fields[field.key] === 'true'
