@@ -24,10 +24,6 @@ const searchOpen = ref(false)
         <button title="搜索" class="search-btn mr-2" @click="searchOpen = true">
           <div i-ri-search-line />
         </button>
-        <RouterLink to="/daily" title="碎记">
-          <span class="lt-md:hidden">碎记</span>
-          <div i-ri-article-line md:hidden />
-        </RouterLink>
         <RouterLink to="/posts" title="博客">
           <span class="lt-md:hidden">博客</span>
           <div i-ri-article-line md:hidden />
@@ -42,6 +38,10 @@ const searchOpen = ref(false)
         </RouterLink> -->
         <RouterLink to="/product" title="产品">
           <span class="lt-md:hidden">产品</span>
+          <div i-ri-article-line md:hidden />
+        </RouterLink>
+        <RouterLink to="/daily" title="碎记">
+          <span class="lt-md:hidden">碎记</span>
           <div i-ri-article-line md:hidden />
         </RouterLink>
         <RouterLink to="/interest" title="兴趣">

@@ -1,6 +1,6 @@
 'use client'
 
-import { contentConfigs, type ContentType, generateFilename, generateMarkdown } from '@/lib/config'
+import { calculateReadingTime, contentConfigs, type ContentType, generateFilename, generateMarkdown } from '@/lib/config'
 import { useEffect, useRef, useState } from 'react'
 
 export default function ContentCreator() {
@@ -307,6 +307,10 @@ export default function ContentCreator() {
                     if (!isTravelAlbum && field.key === 'date') {
                       return false
                     }
+                    // 隐藏 duration 字段（自动计算）
+                    if (field.key === 'duration') {
+                      return false
+                    }
                     return true
                   })
                   .map(field => (
@@ -432,6 +436,11 @@ export default function ContentCreator() {
                     placeholder={selectedType === 'daily' ? '输入碎记内容，支持 Markdown 格式...' : '输入正文内容，支持 Markdown 格式...'}
                     className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 focus:outline-none focus:border-purple-500 resize-y font-mono text-sm"
                   />
+                  <div className="flex justify-between items-center mt-2 text-xs text-gray-500">
+                    <span>
+                      {calculateReadingTime(content, formData.lang as string || 'zh')}
+                    </span>
+                  </div>
                 </div>
               )}
               {!isTravelAlbum && (
