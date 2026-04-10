@@ -7,7 +7,7 @@ import matter from 'gray-matter'
 import anchor from 'markdown-it-anchor'
 import GitHubAlerts from 'markdown-it-github-alerts'
 import LinkAttributes from 'markdown-it-link-attributes'
-import MarkdownItMagicLink from 'markdown-it-magic-link'
+// import MarkdownItMagicLink from 'markdown-it-magic-link'
 import UnoCSS from 'unocss/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import IconsResolver from 'unplugin-icons/resolver'
@@ -37,7 +37,7 @@ function calculateReadingTime(content: string, lang: string = 'zh'): string {
 
   let count: number
 
-  if (lang === 'en') {
+  if (lang && lang.startsWith('en')) {
     // 英文: 按单词数计算
     // 移除 markdown 语法干扰
     const cleanContent = content
@@ -121,6 +121,18 @@ export default defineConfig({
       exportFrontmatter: false,
       exposeFrontmatter: false,
       exposeExcerpt: false,
+      frontmatterPreprocess(frontmatter, options, id) {
+        // Auto-calculate reading duration from content
+        if (id && !id.includes('projects.md') && id.endsWith('.md')) {
+          const fileContent = fs.readFileSync(id, 'utf-8')
+          const { data, content } = matter(fileContent)
+          if (!frontmatter.duration && content) {
+            const lang = frontmatter.lang || data.lang || 'zh'
+            frontmatter.duration = calculateReadingTime(content, lang)
+          }
+        }
+        return { frontmatter }
+      },
       markdownItOptions: {
         quotes: '""\'\'',
       },
@@ -162,43 +174,43 @@ export default defineConfig({
           containerHeaderHtml: '<div class="table-of-contents-anchor"><div class="i-ri-menu-2-fill" /></div>',
         })
 
-        md.use(MarkdownItMagicLink, {
-          linksMap: {
-            'NuxtLabs': 'https://nuxtlabs.com',
-            'Vitest': 'https://github.com/vitest-dev/vitest',
-            'Slidev': 'https://github.com/slidevjs/slidev',
-            'VueUse': 'https://github.com/vueuse/vueuse',
-            'UnoCSS': 'https://github.com/unocss/unocss',
-            'Elk': 'https://github.com/elk-zone/elk',
-            'Type Challenges': 'https://github.com/type-challenges/type-challenges',
-            'Vue': 'https://github.com/vuejs/core',
-            'Nuxt': 'https://github.com/nuxt/nuxt',
-            'Vite': 'https://github.com/vitejs/vite',
-            'Twoslash': 'https://github.com/twoslashes/twoslash',
-            'ESLint Stylistic': 'https://github.com/eslint-stylistic/eslint-stylistic',
-            'Unplugin': 'https://github.com/unplugin',
-            'Nuxt DevTools': 'https://github.com/nuxt/devtools',
-            'Vite PWA': 'https://github.com/vite-pwa',
-            'i18n Ally': 'https://github.com/lokalise/i18n-ally',
-            'ESLint': 'https://github.com/eslint/eslint',
-            'Astro': 'https://github.com/withastro/astro',
-            'TwoSlash': 'https://github.com/twoslashes/twoslash',
-            'Anthony Fu Collective': { link: 'https://opencollective.com/antfu', imageUrl: 'https://github.com/antfu-collective.png' },
-            'Netlify': { link: 'https://netlify.com', imageUrl: 'https://github.com/netlify.png' },
-            'Stackblitz': { link: 'https://stackblitz.com', imageUrl: 'https://github.com/stackblitz.png' },
-            'Vercel': { link: 'https://vercel.com', imageUrl: 'https://github.com/vercel.png' },
-          },
-          imageOverrides: [
-            ['https://github.com/vuejs/core', 'https://vuejs.org/logo.svg'],
-            ['https://github.com/nuxt/nuxt', 'https://nuxt.com/assets/design-kit/icon-green.svg'],
-            ['https://github.com/vitejs/vite', 'https://vitejs.dev/logo.svg'],
-            ['https://github.com/sponsors', 'https://github.com/github.png'],
-            ['https://github.com/sponsors/antfu', 'https://github.com/github.png'],
-            ['https://nuxtlabs.com', 'https://github.com/nuxtlabs.png'],
-            [/opencollective\.com\/vite/, 'https://github.com/vitejs.png'],
-            [/opencollective\.com\/elk/, 'https://github.com/elk-zone.png'],
-          ],
-        })
+        // md.use(MarkdownItMagicLink, {
+        //   linksMap: {
+        //     'NuxtLabs': 'https://nuxtlabs.com',
+        //     'Vitest': 'https://github.com/vitest-dev/vitest',
+        //     'Slidev': 'https://github.com/slidevjs/slidev',
+        //     'VueUse': 'https://github.com/vueuse/vueuse',
+        //     'UnoCSS': 'https://github.com/unocss/unocss',
+        //     'Elk': 'https://github.com/elk-zone/elk',
+        //     'Type Challenges': 'https://github.com/type-challenges/type-challenges',
+        //     'Vue': 'https://github.com/vuejs/core',
+        //     'Nuxt': 'https://github.com/nuxt/nuxt',
+        //     'Vite': 'https://github.com/vitejs/vite',
+        //     'Twoslash': 'https://github.com/twoslashes/twoslash',
+        //     'ESLint Stylistic': 'https://github.com/eslint-stylistic/eslint-stylistic',
+        //     'Unplugin': 'https://github.com/unplugin',
+        //     'Nuxt DevTools': 'https://github.com/nuxt/devtools',
+        //     'Vite PWA': 'https://github.com/vite-pwa',
+        //     'i18n Ally': 'https://github.com/lokalise/i18n-ally',
+        //     'ESLint': 'https://github.com/eslint/eslint',
+        //     'Astro': 'https://github.com/withastro/astro',
+        //     'TwoSlash': 'https://github.com/twoslashes/twoslash',
+        //     'Anthony Fu Collective': { link: 'https://opencollective.com/antfu', imageUrl: 'https://github.com/antfu-collective.png' },
+        //     'Netlify': { link: 'https://netlify.com', imageUrl: 'https://github.com/netlify.png' },
+        //     'Stackblitz': { link: 'https://stackblitz.com', imageUrl: 'https://github.com/stackblitz.png' },
+        //     'Vercel': { link: 'https://vercel.com', imageUrl: 'https://github.com/vercel.png' },
+        //   },
+        //   imageOverrides: [
+        //     ['https://github.com/vuejs/core', 'https://vuejs.org/logo.svg'],
+        //     ['https://github.com/nuxt/nuxt', 'https://nuxt.com/assets/design-kit/icon-green.svg'],
+        //     ['https://github.com/vitejs/vite', 'https://vitejs.dev/logo.svg'],
+        //     ['https://github.com/sponsors', 'https://github.com/github.png'],
+        //     ['https://github.com/sponsors/antfu', 'https://github.com/github.png'],
+        //     ['https://nuxtlabs.com', 'https://github.com/nuxtlabs.png'],
+        //     [/opencollective\.com\/vite/, 'https://github.com/vitejs.png'],
+        //     [/opencollective\.com\/elk/, 'https://github.com/elk-zone.png'],
+        //   ],
+        // })
 
         md.use(GitHubAlerts)
       },

@@ -7,7 +7,10 @@ const props = defineProps<{
   type?: string
   posts?: Post[]
   extra?: Post[]
+  pageSize?: number
 }>()
+
+const pageSize = props.pageSize || 10
 
 const startPath = props.type ? `/${props.type}` : '/posts'
 const router = useRouter()
@@ -29,11 +32,30 @@ const routes: Post[] = router.getRoutes()
     imageType: i.meta.frontmatter.imageType || 'top',
   }))
 
-const posts = computed(() =>
+const allPosts = computed(() =>
   [...(props.posts || routes), ...props.extra || []]
     .sort((a, b) => +new Date(b.date) - +new Date(a.date))
     .filter(i => !englishOnly.value || i.lang !== 'zh'),
 )
+
+const currentPage = ref(1)
+const totalPages = computed(() => Math.ceil(allPosts.value.length / pageSize))
+
+const posts = computed(() => {
+  const start = (currentPage.value - 1) * pageSize
+  const end = start + pageSize
+  return allPosts.value.slice(start, end)
+})
+
+function prevPage() {
+  if (currentPage.value > 1)
+    currentPage.value--
+}
+
+function nextPage() {
+  if (currentPage.value < totalPages.value)
+    currentPage.value++
+}
 
 const getYear = (a: Date | string | number) => new Date(a).getFullYear()
 const isFuture = (a?: Date | string | number) => a && new Date(a) > new Date()
@@ -106,7 +128,7 @@ function getCardBorderClass() {
               v-if="route.lang === 'zh'"
               class="text-xs bg-zinc:15 text-zinc5 rounded px-1 py-0.5"
             >中文</span>
-            <span class="title text-xl leading-1.2em font-bold">{{ route.title }}</span>
+            <span class="title text-xl leading-1.2em font-bold hover-glow">{{ route.title }}</span>
             <span
               v-if="route.redirect"
               op50 flex-none text-xs ml--1.5
@@ -127,6 +149,27 @@ function getCardBorderClass() {
         </div>
       </component>
     </template>
+  </div>
+
+  <!-- 分页 -->
+  <div v-if="totalPages > 1" class="pagination flex justify-center items-center gap-4 mt-8">
+    <button
+      class="hover:opacity-100 op50 hover:op100 disabled:opacity-30 disabled:cursor-not-allowed text-lg px-2"
+      :disabled="currentPage === 1"
+      @click="prevPage"
+    >
+      &lt;
+    </button>
+    <span class="text-sm op60">
+      {{ currentPage }} / {{ totalPages }}
+    </span>
+    <button
+      class="hover:opacity-100 op50 hover:op100 disabled:opacity-30 disabled:cursor-not-allowed text-lg px-2"
+      :disabled="currentPage === totalPages"
+      @click="nextPage"
+    >
+      &gt;
+    </button>
   </div>
 </template>
 
@@ -202,6 +245,14 @@ function getCardBorderClass() {
 
 .card:hover .card-image img {
   transform: scale(1.05);
+}
+
+.card:hover .hover-glow {
+  background: -webkit-linear-gradient(120deg, var(--vp-c-brand-1) 30%, var(--vp-c-brand-next));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: rainbow 5s linear infinite;
 }
 
 .card-body {
