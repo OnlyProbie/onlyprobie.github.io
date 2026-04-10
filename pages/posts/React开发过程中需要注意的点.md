@@ -3,7 +3,6 @@ title: React开发过程中需要注意的点
 date: 2024-11-14T16:23:10
 lang: zh-CN
 type: daily
-duration: 10min
 description: React 开发中的常见问题和最佳实践，包括 setState 的异步特性、优化机制、受控组件与非受控组件的区别等
 ---
 

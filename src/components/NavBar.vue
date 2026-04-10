@@ -14,7 +14,7 @@ const searchOpen = ref(false)
         focusable="false"
       >
         <text class="rainbow">
-          Rex Wang
+          Remywwo
         </text>
       </RouterLink>
     </div>
@@ -24,8 +24,8 @@ const searchOpen = ref(false)
         <button title="搜索" class="search-btn mr-2" @click="searchOpen = true">
           <div i-ri-search-line />
         </button>
-        <RouterLink to="/posts" title="博客">
-          <span class="lt-md:hidden">博客</span>
+        <RouterLink to="/posts" title="文章">
+          <span class="lt-md:hidden">文章</span>
           <div i-ri-article-line md:hidden />
         </RouterLink>
         <!-- <RouterLink to="/thinking" title="思考">
@@ -36,18 +36,18 @@ const searchOpen = ref(false)
           <span class="lt-md:hidden">设计</span>
           <div i-ri-article-line md:hidden />
         </RouterLink> -->
-        <RouterLink to="/product" title="产品">
+        <!-- <RouterLink to="/product" title="产品">
           <span class="lt-md:hidden">产品</span>
           <div i-ri-article-line md:hidden />
-        </RouterLink>
-        <RouterLink to="/daily" title="碎记">
+        </RouterLink> -->
+        <!-- <RouterLink to="/daily" title="碎记">
           <span class="lt-md:hidden">碎记</span>
           <div i-ri-article-line md:hidden />
-        </RouterLink>
-        <RouterLink to="/interest" title="兴趣">
+        </RouterLink> -->
+        <!-- <RouterLink to="/interest" title="兴趣">
           <span class="lt-md:hidden">兴趣</span>
           <div i-ri-article-line md:hidden />
-        </RouterLink>
+        </RouterLink> -->
         <a href="https://github.com/OnlyProbie" target="_blank" title="GitHub" class="lt-md:hidden">
           <div i-uil-github-alt />
         </a>

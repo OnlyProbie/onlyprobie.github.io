@@ -6,7 +6,7 @@ const route = useRoute()
 const frontmatter = computed(() => (route.meta.frontmatter as Record<string, any>) || {})
 
 useHead({
-  title: () => frontmatter.value.tabTitle || frontmatter.value.title || 'Rex Wang',
+  title: () => frontmatter.value.tabTitle || frontmatter.value.title || 'Remywwo',
 })
 
 const imageModel = ref<HTMLImageElement>()

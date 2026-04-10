@@ -1,15 +1,15 @@
-# Rex Wang 个人网站项目文档
+# Remywwo 个人网站项目文档
 
 ## 1. 项目概述
 
 这是一个基于 **Vue 3** 的个人博客/作品集网站，采用现代化的技术栈构建。网站主要用于展示技术博客、每日随笔、产品思考和旅行兴趣等内容模块。网站使用 Markdown 作为内容格式，通过 ViteSSG 进行静态站点生成，支持服务端渲染（SSG）以获得更好的 SEO 和加载性能。
 
-项目地址：https://github.com/OnlyProbie/onlyprobie.github.io
+项目地址：https://github.com/Remywwo/remywwo.github.io
 
 ## 2. 目录结构说明
 
 ```
-onlyprobie.github.io/
+remywwo.github.io/
 ├── pages/                    # 页面路由目录（基于文件系统的路由）
 │   ├── [...404].md          # 404 错误页面
 │   ├── index.md             # 首页
@@ -94,11 +94,13 @@ onlyprobie.github.io/
 ## 3. 主要功能模块分析
 
 ### 3.1 首页 (pages/index.md)
+
 - 展示个人资料卡片（ProfileCard）
 - 粒子网络背景动画（ParticleNetwork）
 - 支持主题切换
 
 ### 3.2 博客模块 (pages/posts/)
+
 - 技术文章列表展示
 - 支持 Markdown 格式渲染
 - 使用 Shiki 进行代码高亮（支持 TwoSlash 语法）
@@ -107,6 +109,7 @@ onlyprobie.github.io/
 - 图片点击放大预览
 
 ### 3.3 碎记模块 (pages/daily/)
+
 - **DailyCalendar 组件**：完整的日历视图
   - 显示农历日期和节假日信息
   - 标记有记录的日子
@@ -116,11 +119,13 @@ onlyprobie.github.io/
 - **DailyDetail 组件**：碎记详情展示
 
 ### 3.4 产品模块 (pages/product/)
+
 - ProductCard 组件：产品卡片展示
 - ProductDetail 组件：产品详情页
 - 产品相关数据自动从 `pages/content/product/` 目录生成
 
 ### 3.5 兴趣模块 (pages/interest/)
+
 - **ChinaMapAlbum 组件**：中国地图相册
   - 使用 ECharts 渲染中国地图
   - 根据照片 EXIF 信息提取城市
@@ -129,7 +134,9 @@ onlyprobie.github.io/
 - 旅行照片管理（从 `public/images/interests/travel/` 自动读取）
 
 ### 3.6 内容创作工具 (content-creator/)
+
 独立运行的 Next.js 应用，提供：
+
 - 可视化内容创建表单
 - 支持多种内容类型：博客、碎记、产品、兴趣
 - 实时 Markdown 预览
@@ -140,6 +147,7 @@ onlyprobie.github.io/
 ## 4. 技术实现细节
 
 ### 4.1 核心框架
+
 - **Vue 3.5.12**：渐进式 JavaScript 框架
 - **Vue Router 4.2.5**：官方路由管理
 - **Pinia 2.2.4**：状态管理
@@ -147,12 +155,14 @@ onlyprobie.github.io/
 - **vite-ssg 0.23.8**：静态站点生成
 
 ### 4.2 UI 和样式
+
 - **UnoCSS 0.63.6**：原子化 CSS 引擎（预设 presetUno、presetIcons、presetAttributify）
 - **@unocss/reset**：CSS 重置
 - **Floating-Vue 5.2.2**：浮动菜单组件
 - **NProgress 0.2.0**：导航进度条
 
 ### 4.3 Markdown 处理
+
 - **markdown-it**：Markdown 解析器
 - **Shiki 1.22.2**：代码高亮（支持 VS Code 主题）
 - **@shikijs/twoslash**：TypeScript 代码类型提示
@@ -162,16 +172,19 @@ onlyprobie.github.io/
 - **markdown-it-table-of-contents**：目录生成
 
 ### 4.4 数据可视化
+
 - **ECharts 5.6.0**：图表库
 - **ECharts-GL 2.0.9**：ECharts WebGL 扩展
 - **D3 7.9.0**：数据驱动文档
 
 ### 4.5 日期处理
+
 - **dayjs 1.11.13**：轻量级日期库
 - **lunar 2.0.0**：农历转换
 - **chinese-holidays 1.8.0**：中国节假日
 
 ### 4.6 自动数据生成脚本
+
 项目使用 `esno`（ESM Node）运行 TypeScript 脚本：
 
 ```typescript
@@ -183,12 +196,15 @@ onlyprobie.github.io/
 生成的文件保存在 `src/data/` 目录，这些文件由脚本自动生成，不应手动编辑。
 
 ### 4.7 路由系统
+
 使用 `unplugin-vue-router` 实现基于文件系统的路由：
+
 - `pages/*.md` → `/`
 - `pages/posts/*.md` → `/posts/`
 - `pages/daily/[date].md` → `/daily/:date`
 
 ### 4.8 构建时数据流
+
 ```
 1. esno ./scripts/generateDailies.ts     → 生成 src/data/dailiesAuto.ts
 2. esno ./scripts/generateInterests.ts  → 生成 src/data/interestsAuto.ts
@@ -225,12 +241,15 @@ pnpm build
 ### 5.3 部署
 
 #### GitHub Pages（自动部署）
+
 项目配置了 GitHub Actions，当 push 到 `main` 分支时自动：
+
 1. 安装 pnpm 和 Node.js 20
 2. 执行 `pnpm run build`
 3. 将 `dist/` 目录部署到 GitHub Pages
 
 #### Netlify 部署
+
 项目根目录包含 `netlify.toml` 配置文件，支持 Netlify 自动部署。
 
 ### 5.4 内容创作工具使用
@@ -252,6 +271,7 @@ pnpm dev
 ### 5.5 添加新内容
 
 #### 添加博客文章
+
 在 `pages/posts/` 目录创建 `.md` 文件：
 
 ```markdown
@@ -265,6 +285,7 @@ description: 文章描述
 ```
 
 #### 添加碎记
+
 在 `pages/content/daily/` 目录创建 `YYYY-MM-DD.md` 文件：
 
 ```markdown
@@ -278,6 +299,7 @@ date: 2024-01-01
 ```
 
 #### 添加产品
+
 在 `pages/content/product/` 目录创建 `.md` 文件：
 
 ```markdown
@@ -297,12 +319,14 @@ techStack:
 ```
 
 #### 添加旅行照片
+
 将照片放入 `public/images/interests/travel/` 目录，文件名格式：
 `城市-景点-YYYYMMDD.jpg` 或 `城市-YYYYMM.jpg`
 
 ### 5.6 代码规范
 
 项目使用 ESLint 和 lint-staged：
+
 - 提交前自动运行 `eslint --fix`
 - 使用 `@antfu/eslint-config` 配置
 

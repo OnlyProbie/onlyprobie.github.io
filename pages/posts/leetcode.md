@@ -1,9 +1,8 @@
 ---
 title: leetcode刷题记录
-date: 2020-11-14T14:51:57
+date: 2023-11-14T14:51:57
 lang: zh-CN
 type: blog
-duration: 10min
 description: 算法刷题记录，包含丑数判断等常见面试题的解题思路与代码实现
 ---
 

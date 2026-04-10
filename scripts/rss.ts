@@ -8,7 +8,7 @@ import MarkdownIt from 'markdown-it'
 
 const DOMAIN = 'https://antfu.me'
 const AUTHOR = {
-  name: 'Rex Wang',
+  name: 'Remywwo',
   email: 'onlyprobie@gmail.com',
   link: DOMAIN,
 }
@@ -26,11 +26,11 @@ async function buildBlogRSS() {
   const files = await fg('pages/posts/*.md')
 
   const options = {
-    title: 'Rex Wang',
-    description: 'Rex Wang\' Blog',
+    title: 'Remywwo',
+    description: 'Remywwo\' Blog',
     id: 'https://onlyprobie.github.io/',
     link: 'https://onlyprobie.github.io/',
-    copyright: 'CC BY-NC-SA 4.0 2021 © Rex Wang',
+    copyright: 'CC BY-NC-SA 4.0 2021 © Remywwo',
     // feedLinks: {
     //   json: 'https://antfu.me/feed.json',
     //   atom: 'https://antfu.me/feed.atom',

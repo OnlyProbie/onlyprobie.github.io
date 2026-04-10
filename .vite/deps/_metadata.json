@@ -1,0 +1,55 @@
+{
+  "hash": "5249d20c",
+  "configHash": "ea87f7a7",
+  "lockfileHash": "e100cb19",
+  "browserHash": "e8ce0d71",
+  "optimized": {
+    "dayjs": {
+      "src": "../../node_modules/.pnpm/dayjs@1.11.13/node_modules/dayjs/dayjs.min.js",
+      "file": "dayjs.js",
+      "fileHash": "2a1ff109",
+      "needsInterop": true
+    },
+    "dayjs/plugin/localizedFormat.js": {
+      "src": "../../node_modules/.pnpm/dayjs@1.11.13/node_modules/dayjs/plugin/localizedFormat.js",
+      "file": "dayjs_plugin_localizedFormat__js.js",
+      "fileHash": "2d94f65a",
+      "needsInterop": true
+    },
+    "floating-vue": {
+      "src": "../../node_modules/.pnpm/floating-vue@5.2.2_vue@3.5.12_typescript@5.6.3_/node_modules/floating-vue/dist/floating-vue.mjs",
+      "file": "floating-vue.js",
+      "fileHash": "dd2fe3ab",
+      "needsInterop": false
+    },
+    "nprogress": {
+      "src": "../../node_modules/.pnpm/nprogress@0.2.0/node_modules/nprogress/nprogress.js",
+      "file": "nprogress.js",
+      "fileHash": "23f0cc80",
+      "needsInterop": true
+    },
+    "pinia": {
+      "src": "../../node_modules/.pnpm/pinia@2.2.6_typescript@5.6.3_vue@3.5.12_typescript@5.6.3_/node_modules/pinia/dist/pinia.mjs",
+      "file": "pinia.js",
+      "fileHash": "27335faa",
+      "needsInterop": false
+    },
+    "vite-ssg": {
+      "src": "../../node_modules/.pnpm/vite-ssg@0.23.8_vite@5.4.11_@types+node@22.9.0_terser@5.36.0__vue-router@4.2.5_vue@3.5.12_typ_cvsm47xyazgnubinuxwl3hospe/node_modules/vite-ssg/dist/index.mjs",
+      "file": "vite-ssg.js",
+      "fileHash": "fdd24682",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-BPR5FKHA": {
+      "file": "chunk-BPR5FKHA.js"
+    },
+    "chunk-FIW3G277": {
+      "file": "chunk-FIW3G277.js"
+    },
+    "chunk-BUSYA2B4": {
+      "file": "chunk-BUSYA2B4.js"
+    }
+  }
+}

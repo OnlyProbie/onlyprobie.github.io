@@ -1,9 +1,8 @@
 ---
 title: ESM和CommonJS的差异
-date: 2022-11-14T16:55:56
+date: 2024-11-14T16:55:56
 lang: zh-CN
 type: daily
-duration: 3min
 description: ES6 模块与 CommonJS 的两大核心差异：值的拷贝vs值的引用、运行时加载vs编译时输出接口，以及 this 指向的区别
 ---
 
