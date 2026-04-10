@@ -5,4 +5,4 @@ art: plum
 
 <ChinaMapAlbum />
 
-<ListPosts type="interest" />
+<!-- <ListPosts type="interest" /> -->

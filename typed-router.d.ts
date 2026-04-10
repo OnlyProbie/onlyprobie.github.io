@@ -20,6 +20,7 @@ declare module 'vue-router/auto-routes' {
   export interface RouteNamedMap {
     '/': RouteRecordInfo<'/', '/', Record<never, never>, Record<never, never>>,
     '/[...404]': RouteRecordInfo<'/[...404]', '/:404(.*)', { 404: ParamValue<true> }, { 404: ParamValue<false> }>,
+    '/about': RouteRecordInfo<'/about', '/about', Record<never, never>, Record<never, never>>,
     '/content/daily/2026-04-01': RouteRecordInfo<'/content/daily/2026-04-01', '/content/daily/2026-04-01', Record<never, never>, Record<never, never>>,
     '/content/product/cli-tool': RouteRecordInfo<'/content/product/cli-tool', '/content/product/cli-tool', Record<never, never>, Record<never, never>>,
     '/content/product/design-system': RouteRecordInfo<'/content/product/design-system', '/content/product/design-system', Record<never, never>, Record<never, never>>,
@@ -30,7 +31,6 @@ declare module 'vue-router/auto-routes' {
     '/daily/[date]': RouteRecordInfo<'/daily/[date]', '/daily/:date', { date: ParamValue<true> }, { date: ParamValue<false> }>,
     '/design/': RouteRecordInfo<'/design/', '/design', Record<never, never>, Record<never, never>>,
     '/interest/': RouteRecordInfo<'/interest/', '/interest', Record<never, never>, Record<never, never>>,
-    '/posts/': RouteRecordInfo<'/posts/', '/posts', Record<never, never>, Record<never, never>>,
     '/posts/babel-handbook': RouteRecordInfo<'/posts/babel-handbook', '/posts/babel-handbook', Record<never, never>, Record<never, never>>,
     '/posts/babel-type': RouteRecordInfo<'/posts/babel-type', '/posts/babel-type', Record<never, never>, Record<never, never>>,
     '/posts/daily-style-questions': RouteRecordInfo<'/posts/daily-style-questions', '/posts/daily-style-questions', Record<never, never>, Record<never, never>>,

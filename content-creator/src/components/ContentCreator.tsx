@@ -270,7 +270,7 @@ export default function ContentCreator() {
         </div>
 
         <nav className="flex items-center gap-1 ml-4">
-          <a href="https://github.com/OnlyProbie" target="_blank" rel="noopener noreferrer" className="px-3 py-2 rounded-lg opacity-60 hover:opacity-100 transition-opacity">
+          <a href="https://github.com/Remywwo" target="_blank" rel="noopener noreferrer" className="px-3 py-2 rounded-lg opacity-60 hover:opacity-100 transition-opacity">
             GitHub
           </a>
         </nav>

@@ -6,7 +6,7 @@ import fs from 'fs-extra'
 import matter from 'gray-matter'
 import MarkdownIt from 'markdown-it'
 
-const DOMAIN = 'https://antfu.me'
+const DOMAIN = 'https://remywwo.github.io'
 const AUTHOR = {
   name: 'Remywwo',
   email: 'onlyprobie@gmail.com',
@@ -28,8 +28,8 @@ async function buildBlogRSS() {
   const options = {
     title: 'Remywwo',
     description: 'Remywwo\' Blog',
-    id: 'https://onlyprobie.github.io/',
-    link: 'https://onlyprobie.github.io/',
+    id: 'https://remywwo.github.io/',
+    link: 'https://remywwo.github.io/',
     copyright: 'CC BY-NC-SA 4.0 2021 © Remywwo',
     // feedLinks: {
     //   json: 'https://antfu.me/feed.json',

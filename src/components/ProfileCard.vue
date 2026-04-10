@@ -26,7 +26,7 @@ const profile = {
     // '策略',
   ],
   social: {
-    github: 'https://github.com/OnlyProbie',
+    github: 'https://github.com/Remywwo',
     email: 'onlyprobie@gmail.com',
   },
 }
