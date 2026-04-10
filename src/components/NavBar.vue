@@ -125,15 +125,21 @@ const searchOpen = ref(false)
 .nav a:hover {
   opacity: 1;
   text-decoration-color: inherit;
+  background: -webkit-linear-gradient(120deg, var(--vp-c-brand-1) 30%, var(--vp-c-brand-next));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: rainbow 10s linear infinite;
 }
 
 .nav a.router-link-active {
   opacity: 1;
-  color: var(--c-text);
-  background: rgba(128, 128, 128, 0.15);
-  border-radius: 0.5rem;
-  transform: scale(1.05);
-  animation: activePulse 0.3s ease;
+  text-decoration-color: inherit;
+  background: -webkit-linear-gradient(120deg, var(--vp-c-brand-1) 30%, var(--vp-c-brand-next));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: rainbow 10s linear infinite;
 }
 
 @keyframes activePulse {
