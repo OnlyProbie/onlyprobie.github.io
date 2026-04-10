@@ -1,9 +1,8 @@
 ---
 title: javaScript 实现数据结构
-date: 2020-11-14T14:50:23
+date: 2023-11-14T14:50:23
 lang: zh-CN
 type: blog
-duration: 50min
 description: 使用 JavaScript 实现各种数据结构，包括数组、链表、栈、队列、树等，深入理解数据结构的核心概念与底层原理
 ---
 

@@ -1,13 +1,15 @@
 <script setup lang="ts">
 const profile = {
-  name: 'Rex Wang',
-  title: '前端开发 | 产品经理',
-  flag: '懂设计的前端，才是合格的产品经理 | 极简主义者 | 明史爱好者',
+  name: 'Remywwo',
+  // title: '前端开发 | 产品经理',
+  title: '某互联网大厂资深前端开发',
+  flag: '努力学习产品中...',
+  // flag: '懂设计的前端，才是合格的产品经理 | 极简主义者 | 明史爱好者',
   description: '乐于主动探索AI新技术；崇尚极简主义，专注从 0 到 1 的创造过程；业余明史爱好者，以历史逻辑沉淀思考，反哺技术与产品决策。',
-  work: {
-    company: '某互联网公司',
-    position: '资深前端开发工程师 | 产品经理',
-  },
+  // work: {
+  //   company: '某互联网公司',
+  //   position: '资深前端开发工程师',
+  // },
   skills: [
     'AI coding',
     '前端开发',
@@ -21,7 +23,7 @@ const profile = {
     '架子鼓',
     '旅行',
     '动漫',
-    '策略',
+    // '策略',
   ],
   social: {
     github: 'https://github.com/OnlyProbie',
@@ -65,11 +67,11 @@ const profile = {
         <h3 class="section-title">
           工作
         </h3>
-        <div class="work-info">
+        <!-- <div class="work-info">
           <span class="company">{{ profile.work.company }}</span>
           <span class="divider">·</span>
           <span class="position">{{ profile.work.position }}</span>
-        </div>
+        </div> -->
       </div>
 
       <div class="profile-section">

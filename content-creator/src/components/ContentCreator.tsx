@@ -218,7 +218,7 @@ export default function ContentCreator() {
       {/* Navbar */}
       <header className="fixed top-0 left-0 right-0 z-40 h-16 px-6 flex items-center border-b border-gray-200 dark:border-gray-700 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md">
         <div className="flex items-center gap-3">
-          <span className="text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">Rex Wang</span>
+          <span className="text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">Remywwo</span>
         </div>
 
         {/* Action buttons in navbar */}

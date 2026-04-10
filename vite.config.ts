@@ -25,6 +25,41 @@ import SVG from 'vite-svg-loader'
 import TOC from 'markdown-it-table-of-contents'
 import { slugify } from './scripts/slugify'
 
+/**
+ * 根据内容字数自动计算阅读时长
+ * - 中文: 按字符数计算，每分钟约 200 字
+ * - 英文: 按单词数计算，每分钟约 250 词
+ */
+function calculateReadingTime(content: string, lang: string = 'zh'): string {
+  if (!content || content.trim().length === 0) {
+    return '1min'
+  }
+
+  let count: number
+
+  if (lang === 'en') {
+    // 英文: 按单词数计算
+    // 移除 markdown 语法干扰
+    const cleanContent = content
+      .replace(/```[\s\S]*?```/g, '') // 移除代码块
+      .replace(/`[^`]+`/g, '') // 移除行内代码
+      .replace(/[#*_[\]()]/g, ' ') // 移除 markdown 符号
+    const words = cleanContent.trim().split(/\s+/).filter(w => w.length > 0)
+    count = words.length
+    return `${Math.max(1, Math.ceil(count / 250))}min`
+  }
+  else {
+    // 中文: 按字符数计算
+    // 移除 markdown 语法干扰
+    const cleanContent = content
+      .replace(/```[\s\S]*?```/g, '') // 移除代码块
+      .replace(/`[^`]+`/g, '') // 移除行内代码
+      .replace(/[#*_[\]()~`]/g, '') // 移除 markdown 符号
+    count = cleanContent.length
+    return `${Math.max(1, Math.ceil(count / 200))}min`
+  }
+}
+
 const promises: Promise<any>[] = []
 
 export default defineConfig({
@@ -55,7 +90,15 @@ export default defineConfig({
           return
 
         if (!path.includes('projects.md') && path.endsWith('.md')) {
-          const { data } = matter(fs.readFileSync(path, 'utf-8'))
+          const fileContent = fs.readFileSync(path, 'utf-8')
+          const { data, content } = matter(fileContent)
+
+          // Auto-calculate reading duration from content if not set
+          if (!data.duration) {
+            const lang = data.lang || 'zh'
+            data.duration = calculateReadingTime(content || '', lang)
+          }
+
           route.addToMeta({
             frontmatter: data,
           })

@@ -1,9 +1,8 @@
 ---
 title: Node模块的查找
-date: 2021-11-14T14:48:14
+date: 2023-11-14T14:48:14
 lang: zh-CN
 type: daily
-duration: 10min
 description: 深入理解 Node.js 中模块的查找机制，包括绝对路径、相对路径、核心模块、文件模块和第三方模块的加载流程
 ---
 
