@@ -5,6 +5,7 @@ dist
 .presite
 dist-ssr
 .vite-ssg-temp
+.vite
 components.d.ts
 auto-imports.d.ts
 temp
