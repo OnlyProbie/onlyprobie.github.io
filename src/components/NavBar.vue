@@ -24,10 +24,10 @@ const searchOpen = ref(false)
         <button title="搜索" class="search-btn mr-2" @click="searchOpen = true">
           <div i-ri-search-line />
         </button>
-        <RouterLink to="/posts" title="文章">
+        <!-- <RouterLink to="/posts" title="文章">
           <span class="lt-md:hidden">文章</span>
           <div i-ri-article-line md:hidden />
-        </RouterLink>
+        </RouterLink> -->
         <!-- <RouterLink to="/thinking" title="思考">
           <span class="lt-md:hidden">思考</span>
           <div i-ri-article-line md:hidden />
@@ -40,18 +40,22 @@ const searchOpen = ref(false)
           <span class="lt-md:hidden">产品</span>
           <div i-ri-article-line md:hidden />
         </RouterLink> -->
-        <!-- <RouterLink to="/daily" title="碎记">
+        <RouterLink to="/daily" title="碎记">
           <span class="lt-md:hidden">碎记</span>
           <div i-ri-article-line md:hidden />
-        </RouterLink> -->
-        <!-- <RouterLink to="/interest" title="兴趣">
+        </RouterLink>
+        <RouterLink to="/interest" title="兴趣">
           <span class="lt-md:hidden">兴趣</span>
           <div i-ri-article-line md:hidden />
-        </RouterLink> -->
-        <a href="https://github.com/OnlyProbie" target="_blank" title="GitHub" class="lt-md:hidden">
+        </RouterLink>
+        <RouterLink to="/about" title="关于我">
+          <span class="lt-md:hidden">关于我</span>
+          <div i-ri-user-line md:hidden />
+        </RouterLink>
+        <a href="https://github.com/OnlyProbie" target="_blank" title="GitHub" class="lt-md:hidden" style="width: 3rem">
           <div i-uil-github-alt />
         </a>
-        <div class="theme-btn">
+        <div class="theme-btn" style="width: 3rem">
           <ToggleTheme />
         </div>
       </div>
@@ -111,7 +115,7 @@ const searchOpen = ref(false)
   opacity: 0.6;
   outline: none;
   text-align: center;
-  width: 3.5rem;
+  width: 4rem;
   height: 2rem;
   line-height: 2rem;
   display: inline-block;
