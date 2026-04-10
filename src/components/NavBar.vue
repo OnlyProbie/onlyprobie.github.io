@@ -52,7 +52,7 @@ const searchOpen = ref(false)
           <span class="lt-md:hidden">关于我</span>
           <div i-ri-user-line md:hidden />
         </RouterLink>
-        <a href="https://github.com/OnlyProbie" target="_blank" title="GitHub" class="lt-md:hidden" style="width: 3rem">
+        <a href="https://github.com/Remywwo" target="_blank" title="GitHub" class="lt-md:hidden" style="width: 3rem">
           <div i-uil-github-alt />
         </a>
         <div class="theme-btn" style="width: 3rem">
