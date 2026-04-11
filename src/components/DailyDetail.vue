@@ -27,7 +27,7 @@ const formattedDate = computed(() => {
 .daily-detail {
   max-width: 800px;
   margin: 0 auto;
-  padding: 1rem;
+  padding: 1rem 0;
 }
 
 .no-record {
