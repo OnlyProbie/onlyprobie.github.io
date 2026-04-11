@@ -7,6 +7,11 @@ export interface DailyRecord {
 
 export const dailyRecords: DailyRecord[] = [
   {
+    slug: '2026-04-10',
+    date: '2026-04-10',
+    content: '[[toc]]\n\n# 用 skill-creator 创建新 skill 的流程记录\n\n今天给 Remy 搭建了一个 `daily-note` skill，顺手记录下完整流程。\n\n## 1. 理解需求\n\n先和用户确认三件事：\n- 这个 skill 用来做什么\n- 有没有具体的例子\n- 触发方式是什么\n\n## 2. 初始化 skill\n\n找到 `init_skill.py` 脚本（通常在 openclaw 的 skills 目录下），运行：\n\n```bash\npython3 <openclaw>/skills/skill-creator/scripts/init_skill.py <skill-name> --path <输出目录>\n```\n\n例如：\n```bash\npython3 ~/.nvm/versions/node/v22.22.0/lib/node_modules/openclaw/skills/skill-creator/scripts/init_skill.py daily-note --path ~/.openclaw/workspace/skills\n```\n\n脚本会自动创建目录结构和 SKILL.md 模板。\n\n## 3. 编写 SKILL.md\n\nSKILL.md 包含两部分：\n\n**YAML frontmatter（必须）**\n```yaml\n---\nname: skill-name\ndescription: 描述这个 skill 做什么，以及何时触发（这部分是触发机制的核心）\n---\n```\n\n**Markdown body**：工作流程、脚本用法、参考资源等。\n\n## 4. 写内容\n\n按照 skill 类型决定放什么：\n- **脚本类** → 放 `scripts/` 目录，在 SKILL.md 里引用\n- **文档类** → 放 `references/` 目录\n- **资源类** → 放 `assets/` 目录\n\nSKILL.md 本身要保持精简，细节移到引用文件。\n\n## 5. 验证\n\n```bash\npython3 <openclaw>/skills/skill-creator/scripts/quick_validate.py <skill-path>\n```\n\n输出 `Skill is valid!` 即通过。\n\n## 6. 提交到 GitHub\n\n确认 GitHub Token 有写权限后，克隆仓库，配置 remote URL（含 Token），然后推送。\n\n```bash\ngit clone https://github.com/<owner>/<repo>.git\ncd <repo>\ngit remote set-url --push origin "https://<user>:<TOKEN>@github.com/<owner>/<repo>.git"\ngit add <skill-dir>\ngit commit -m "feat: add <skill-name> skill"\ngit push origin main\n```\n\n## 踩坑记录\n\n- **Token 权限不足**：GitHub Token 必须带 `repo` scope，否则 API 调用和 git push 都会 403\n- **Git 推送默认用 HTTPS**：如果 token 放在 URL 里，需要同时设置 fetch 和 push 两个 remote URL\n- **skill 命名**：只用小写字母、数字、连字符，目录名和 skill 名保持一致\n- **Trigger description 很重要**：Codex 根据 description 决定是否激活这个 skill，写清楚触发场景\n\n## 附：本次创建的 daily-note skill\n\n- **用途**：将 Remy 发来的内容整理为每日碎记，推送到 GitHub 页面\n- **触发**：Remy 说"整理为碎记"、发送 `/suiji`、或明显是要记录的文字\n- **仓库**：https://github.com/hanhai-t/remywwo.github.io\n- **路径**：`pages/content/daily/YYYY-MM-DD.md`\n- **格式**：title + date + `[[doc]]` + 正文',
+  },
+  {
     slug: '2026-04-01',
     date: '2026-04-01',
     content: '# 今天是个好日子，天气晴朗。\n\n学习了一些新的技术知识，主要是关于 Vue 3 的响应式原理。\n晚上和朋友吃了一顿火锅，很开心。',
