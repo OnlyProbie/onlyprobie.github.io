@@ -30,6 +30,7 @@ declare module 'vue-router/auto-routes' {
     '/daily/[date]': RouteRecordInfo<'/daily/[date]', '/daily/:date', { date: ParamValue<true> }, { date: ParamValue<false> }>,
     '/daily/2026-04-01': RouteRecordInfo<'/daily/2026-04-01', '/daily/2026-04-01', Record<never, never>, Record<never, never>>,
     '/daily/2026-04-10': RouteRecordInfo<'/daily/2026-04-10', '/daily/2026-04-10', Record<never, never>, Record<never, never>>,
+    '/daily/2026-04-11': RouteRecordInfo<'/daily/2026-04-11', '/daily/2026-04-11', Record<never, never>, Record<never, never>>,
     '/design/': RouteRecordInfo<'/design/', '/design', Record<never, never>, Record<never, never>>,
     '/interest/': RouteRecordInfo<'/interest/', '/interest', Record<never, never>, Record<never, never>>,
     '/posts/babel-handbook': RouteRecordInfo<'/posts/babel-handbook', '/posts/babel-handbook', Record<never, never>, Record<never, never>>,
