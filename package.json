@@ -4,7 +4,7 @@
   "packageManager": "pnpm@9.12.3",
   "scripts": {
     "build": "esno ./scripts/generateInterests.ts && esno ./scripts/generateProducts.ts && cross-env NODE_ENV=production vite-ssg build && esno ./scripts/rss.ts",
-    "dev": "esno ./scripts/generateDailies.ts && esno ./scripts/generateInterests.ts && esno ./scripts/generateProducts.ts && vite --port 3333 --open",
+    "dev": "esno ./scripts/generateInterests.ts && esno ./scripts/generateProducts.ts && vite --port 3333 --open",
     "preview": "vite preview",
     "lint": "eslint .",
     "prepare": "simple-git-hooks",
