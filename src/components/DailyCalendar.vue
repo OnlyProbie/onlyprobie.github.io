@@ -1,9 +1,21 @@
 <script setup lang="ts">
 import { formatLunar, toLunar } from 'lunar'
 import { type DayHolidayInfo, getHolidaysForMonth } from '../composables/useHoliday'
-import { dailyRecords } from '../data/dailiesAuto'
 
 const router = useRouter()
+
+// Get daily dates from router routes
+const dailyDates = computed(() => {
+  const routes = router.getRoutes()
+  const dateRe = /^\/daily\/(\d{4}-\d{2}-\d{2})$/
+  return routes
+    .filter(r => dateRe.test(r.path))
+    .map((r) => {
+      const match = r.path.match(dateRe)
+      return match ? match[1] : ''
+    })
+    .filter(Boolean)
+})
 
 const today = new Date()
 const currentYear = ref(today.getFullYear())
@@ -128,7 +140,7 @@ const calendarDays = computed(() => {
       date: dateStr,
       year: prevYear,
       month: prevMonth,
-      hasEntry: dailyRecords.some(r => r.date === dateStr),
+      hasEntry: dailyDates.value.includes(dateStr),
       isToday: dateStr === todayStr,
       lunarDay: lunar.lunarDay,
       solarTerm: null,
@@ -153,7 +165,7 @@ const calendarDays = computed(() => {
       date: dateStr,
       year: currentYear.value,
       month: currentMonth.value,
-      hasEntry: dailyRecords.some(r => r.date === dateStr),
+      hasEntry: dailyDates.value.includes(dateStr),
       isToday: dateStr === todayStr,
       lunarDay: lunar.lunarDay,
       solarTerm,
@@ -182,7 +194,7 @@ const calendarDays = computed(() => {
       date: dateStr,
       year: nextYear,
       month: nextMonth,
-      hasEntry: dailyRecords.some(r => r.date === dateStr),
+      hasEntry: dailyDates.value.includes(dateStr),
       isToday: dateStr === todayStr,
       lunarDay: lunar.lunarDay,
       solarTerm: null,
