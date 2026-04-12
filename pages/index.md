@@ -1,5 +1,5 @@
 ---
-tabTitle: 博客
+tabTitle: Remywwo
 description: Remywwo's Portfolio
 image: https://antfu.me/og.png
 art: plum
